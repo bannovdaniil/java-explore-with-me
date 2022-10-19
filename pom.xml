@@ -26,8 +26,9 @@
 
 
     <modules>
-        <module>stat</module>
+        <module>stats</module>
         <module>main</module>
+        <module>common</module>
     </modules>
 
     <build>
