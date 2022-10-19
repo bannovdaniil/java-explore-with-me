@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS users
 CREATE TABLE IF NOT EXISTS category
 (
     id   BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    name VARCHAR(200)
+    name VARCHAR(200),
+    CONSTRAINT UQ_NAME UNIQUE (name)
 );
 
 CREATE TABLE IF NOT EXISTS locations
@@ -44,7 +45,7 @@ CREATE TABLE IF NOT EXISTS events
     location          BIGINT NOT NULL
         CONSTRAINT events_locations_fkey REFERENCES locations,
     paid              BOOLEAN default false,
-    participantLimit  INT DEFAULT 0,
+    participantLimit  INT     DEFAULT 0,
     publishedOn       TIMESTAMP,
     requestModeration BOOLEAN DEFAULT true,
     state             VARCHAR(15),

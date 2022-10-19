@@ -1,4 +1,4 @@
-package ru.practicum.ewm.admin.controller.compilations;
+package ru.practicum.ewm.admin.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,12 +1,12 @@
 package ru.practicum.ewm.dto.stats;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
-@NoArgsConstructor
 public class StatOutDto {
     private String app;
     private String uri;
