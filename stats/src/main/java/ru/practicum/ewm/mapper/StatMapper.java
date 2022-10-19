@@ -1,7 +1,7 @@
 package ru.practicum.ewm.mapper;
 
 import ru.practicum.ewm.Constants;
-import ru.practicum.ewm.dto.StatInDto;
+import ru.practicum.ewm.dto.stats.StatInDto;
 import ru.practicum.ewm.model.Stat;
 
 import java.time.LocalDateTime;
