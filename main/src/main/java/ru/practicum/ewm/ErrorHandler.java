@@ -11,6 +11,7 @@ import ru.practicum.ewm.admin.controller.AdminCompilationsController;
 import ru.practicum.ewm.admin.controller.AdminEventsController;
 import ru.practicum.ewm.admin.controller.AdminUsersController;
 import ru.practicum.ewm.admin.exception.NotFoundCategoryId;
+import ru.practicum.ewm.category.CategoryControler;
 
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
@@ -19,7 +20,8 @@ import java.security.InvalidParameterException;
         AdminUsersController.class,
         AdminCategoriesController.class,
         AdminCompilationsController.class,
-        AdminEventsController.class})
+        AdminEventsController.class,
+        CategoryControler.class})
 public class ErrorHandler {
     private ErrorResponse errorResponse;
 
