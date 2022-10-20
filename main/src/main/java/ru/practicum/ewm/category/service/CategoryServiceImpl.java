@@ -9,7 +9,7 @@ import ru.practicum.ewm.admin.exception.NotFoundCategoryId;
 import ru.practicum.ewm.admin.mapper.CategoryMapper;
 import ru.practicum.ewm.admin.model.Category;
 import ru.practicum.ewm.category.repository.CategoryRepository;
-import ru.practicum.ewm.dto.admin.categories.CategoryFullDto;
+import ru.practicum.ewm.dto.categories.CategoryFullDto;
 
 import java.util.List;
 

@@ -5,8 +5,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.admin.exception.NotFoundCategoryId;
 import ru.practicum.ewm.admin.service.AdminCategoriesService;
-import ru.practicum.ewm.dto.admin.categories.CategoryFullDto;
-import ru.practicum.ewm.dto.admin.categories.CategoryInDto;
+import ru.practicum.ewm.dto.categories.CategoryFullDto;
+import ru.practicum.ewm.dto.categories.CategoryInDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
