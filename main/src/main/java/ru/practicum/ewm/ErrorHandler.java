@@ -10,9 +10,9 @@ import ru.practicum.ewm.admin.controller.AdminCategoriesController;
 import ru.practicum.ewm.admin.controller.AdminCompilationsController;
 import ru.practicum.ewm.admin.controller.AdminEventsController;
 import ru.practicum.ewm.admin.controller.AdminUsersController;
-import ru.practicum.ewm.category.CategoryControler;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
+import ru.practicum.ewm.pub.categories.CategoriesController;
 
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
@@ -22,7 +22,7 @@ import java.security.InvalidParameterException;
         AdminCategoriesController.class,
         AdminCompilationsController.class,
         AdminEventsController.class,
-        CategoryControler.class})
+        CategoriesController.class})
 public class ErrorHandler {
     private ErrorResponse errorResponse;
 

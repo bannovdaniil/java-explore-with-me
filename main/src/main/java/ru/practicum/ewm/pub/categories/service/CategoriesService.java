@@ -1,11 +1,11 @@
-package ru.practicum.ewm.category.service;
+package ru.practicum.ewm.pub.categories.service;
 
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
 
 import java.util.List;
 
-public interface CategoryService {
+public interface CategoriesService {
     List<CategoryFullDto> findAllCategories(Integer from, Integer size);
 
     CategoryFullDto findCategoriesById(Long catId) throws CategoryNotFoundException;

@@ -30,7 +30,7 @@ class CategoryFullDtoTest {
     void testSerialize() throws Exception {
         var dto = new CategoryFullDto(
                 3L,
-                "Name category"
+                "Name categories"
         );
 
         var result = json.write(dto);

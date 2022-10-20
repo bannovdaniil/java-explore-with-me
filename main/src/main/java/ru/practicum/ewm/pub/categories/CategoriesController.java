@@ -1,12 +1,12 @@
-package ru.practicum.ewm.category;
+package ru.practicum.ewm.pub.categories;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
-import ru.practicum.ewm.category.service.CategoryService;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
+import ru.practicum.ewm.pub.categories.service.CategoriesService;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -16,9 +16,9 @@ import java.util.List;
 @RequestMapping("/categories")
 @RequiredArgsConstructor
 @Validated
-public class CategoryControler {
+public class CategoriesController {
 
-    private final CategoryService categoriesService;
+    private final CategoriesService categoriesService;
 
     @GetMapping
     public List<CategoryFullDto> findAllCategories(@PositiveOrZero

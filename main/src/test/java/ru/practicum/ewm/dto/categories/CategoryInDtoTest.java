@@ -29,7 +29,7 @@ class CategoryInDtoTest {
     @Test
     void testSerialize() throws Exception {
         var dto = new CategoryInDto(
-                "Name category"
+                "Name categories"
         );
 
         var result = json.write(dto);

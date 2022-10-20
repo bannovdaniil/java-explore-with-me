@@ -1,4 +1,4 @@
-package ru.practicum.ewm.category.service;
+package ru.practicum.ewm.pub.categories.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -7,16 +7,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.admin.mapper.CategoryMapper;
 import ru.practicum.ewm.admin.model.Category;
-import ru.practicum.ewm.category.repository.CategoryRepository;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
+import ru.practicum.ewm.pub.categories.repository.CategoriesRepository;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryServiceImpl implements CategoryService {
-    private final CategoryRepository categoriesRepository;
+public class CategoriesServiceImpl implements CategoriesService {
+    private final CategoriesRepository categoriesRepository;
 
     @Override
     public List<CategoryFullDto> findAllCategories(Integer from, Integer size) {
