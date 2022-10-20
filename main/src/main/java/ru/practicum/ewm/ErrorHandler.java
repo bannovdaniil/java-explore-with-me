@@ -6,13 +6,15 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.practicum.ewm.admin.controller.AdminCategoriesController;
-import ru.practicum.ewm.admin.controller.AdminCompilationsController;
-import ru.practicum.ewm.admin.controller.AdminEventsController;
-import ru.practicum.ewm.admin.controller.AdminUsersController;
+import ru.practicum.ewm.endpoints.admin.controller.AdminCategoriesController;
+import ru.practicum.ewm.endpoints.admin.controller.AdminCompilationsController;
+import ru.practicum.ewm.endpoints.admin.controller.AdminEventsController;
+import ru.practicum.ewm.endpoints.admin.controller.AdminUsersController;
+import ru.practicum.ewm.endpoints.pub.categories.CategoriesController;
+import ru.practicum.ewm.endpoints.user.controller.UsersEventsController;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
+import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
-import ru.practicum.ewm.pub.categories.CategoriesController;
 
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
@@ -22,12 +24,15 @@ import java.security.InvalidParameterException;
         AdminCategoriesController.class,
         AdminCompilationsController.class,
         AdminEventsController.class,
+        UsersEventsController.class,
+//        UsersRequestsController.class,
         CategoriesController.class})
 public class ErrorHandler {
     private ErrorResponse errorResponse;
 
     @ExceptionHandler({
             CategoryNotFoundException.class,
+            EventNotFoundException.class,
             UserNotFoundException.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
