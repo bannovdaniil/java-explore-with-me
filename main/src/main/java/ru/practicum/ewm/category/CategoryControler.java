@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.category.service.CategoryService;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
-import ru.practicum.ewm.exception.NotFoundCategoryId;
+import ru.practicum.ewm.exception.CategoryNotFoundException;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -29,7 +29,7 @@ public class CategoryControler {
     }
 
     @GetMapping("{catId}")
-    public CategoryFullDto findCategoriesById(@Positive @PathVariable Long catId) throws NotFoundCategoryId {
+    public CategoryFullDto findCategoriesById(@Positive @PathVariable Long catId) throws CategoryNotFoundException {
         return categoriesService.findCategoriesById(catId);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.admin.service.AdminCategoriesService;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
 import ru.practicum.ewm.dto.categories.CategoryInDto;
-import ru.practicum.ewm.exception.NotFoundCategoryId;
+import ru.practicum.ewm.exception.CategoryNotFoundException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -19,7 +19,7 @@ public class AdminCategoriesController {
     private final AdminCategoriesService adminCategoriesService;
 
     @PatchMapping
-    public CategoryFullDto updateCategory(@Valid @RequestBody CategoryFullDto categoryFullDto) throws NotFoundCategoryId {
+    public CategoryFullDto updateCategory(@Valid @RequestBody CategoryFullDto categoryFullDto) throws CategoryNotFoundException {
         return adminCategoriesService.updateCategory(categoryFullDto);
     }
 
@@ -29,7 +29,7 @@ public class AdminCategoriesController {
     }
 
     @DeleteMapping("{catId}")
-    void removeCategory(@Positive @PathVariable Long catId) throws NotFoundCategoryId {
+    void removeCategory(@Positive @PathVariable Long catId) throws CategoryNotFoundException {
         adminCategoriesService.removeCategory(catId);
     }
 }

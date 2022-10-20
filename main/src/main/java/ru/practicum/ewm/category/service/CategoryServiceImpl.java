@@ -9,7 +9,7 @@ import ru.practicum.ewm.admin.mapper.CategoryMapper;
 import ru.practicum.ewm.admin.model.Category;
 import ru.practicum.ewm.category.repository.CategoryRepository;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
-import ru.practicum.ewm.exception.NotFoundCategoryId;
+import ru.practicum.ewm.exception.CategoryNotFoundException;
 
 import java.util.List;
 
@@ -27,9 +27,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryFullDto findCategoriesById(Long catId) throws NotFoundCategoryId {
+    public CategoryFullDto findCategoriesById(Long catId) throws CategoryNotFoundException {
         return CategoryMapper.categoryToDtoOut(categoriesRepository.findById(catId).orElseThrow(
-                () -> new NotFoundCategoryId("Event with id=" + catId + " was not found.")
+                () -> new CategoryNotFoundException("Category ID was not found.")
         ));
     }
 }
