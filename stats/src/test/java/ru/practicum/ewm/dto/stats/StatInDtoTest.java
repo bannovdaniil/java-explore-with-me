@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
+import ru.practicum.ewm.Constants;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -30,7 +31,8 @@ class StatInDtoTest {
         assertThat(result).extractingJsonPathStringValue("$.app").isEqualTo(dto.getApp());
         assertThat(result).extractingJsonPathStringValue("$.uri").isEqualTo(dto.getUri());
         assertThat(result).extractingJsonPathStringValue("$.ip").isEqualTo(dto.getIp());
-        assertThat(result).extractingJsonPathStringValue("$.timestamp").startsWith(dto.getTimestamp());
+        assertThat(result).extractingJsonPathStringValue("$.timestamp")
+                .startsWith(dto.getTimestamp().format(Constants.DATE_TIME_SPACE));
     }
 
 }

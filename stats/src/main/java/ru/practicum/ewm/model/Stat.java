@@ -1,11 +1,9 @@
 package ru.practicum.ewm.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.practicum.ewm.Constants;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,7 +21,6 @@ public class Stat {
     private String app;
     private String uri;
     private String ip;
-    @JsonFormat(pattern = Constants.DATE_TIME_STRING)
     private LocalDateTime timestamp;
 
 }
