@@ -1,8 +1,8 @@
 package ru.practicum.ewm.admin.service;
 
-import ru.practicum.ewm.admin.exception.NotFoundCategoryId;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
 import ru.practicum.ewm.dto.categories.CategoryInDto;
+import ru.practicum.ewm.exception.NotFoundCategoryId;
 
 public interface AdminCategoriesService {
     CategoryFullDto updateCategory(CategoryFullDto categoryFullDto) throws NotFoundCategoryId;

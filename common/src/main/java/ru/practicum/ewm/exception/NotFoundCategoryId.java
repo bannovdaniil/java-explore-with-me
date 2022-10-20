@@ -1,4 +1,4 @@
-package ru.practicum.ewm.admin.exception;
+package ru.practicum.ewm.exception;
 
 public class NotFoundCategoryId extends Exception {
     public NotFoundCategoryId(String message) {

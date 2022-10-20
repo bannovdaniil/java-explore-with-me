@@ -10,8 +10,8 @@ import ru.practicum.ewm.admin.controller.AdminCategoriesController;
 import ru.practicum.ewm.admin.controller.AdminCompilationsController;
 import ru.practicum.ewm.admin.controller.AdminEventsController;
 import ru.practicum.ewm.admin.controller.AdminUsersController;
-import ru.practicum.ewm.admin.exception.NotFoundCategoryId;
 import ru.practicum.ewm.category.CategoryControler;
+import ru.practicum.ewm.exception.NotFoundCategoryId;
 
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;

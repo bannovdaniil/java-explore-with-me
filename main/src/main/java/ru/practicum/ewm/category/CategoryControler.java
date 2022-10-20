@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
-import ru.practicum.ewm.admin.exception.NotFoundCategoryId;
 import ru.practicum.ewm.category.service.CategoryService;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
+import ru.practicum.ewm.exception.NotFoundCategoryId;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;

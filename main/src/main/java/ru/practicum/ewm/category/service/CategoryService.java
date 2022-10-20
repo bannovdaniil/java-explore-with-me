@@ -1,7 +1,7 @@
 package ru.practicum.ewm.category.service;
 
-import ru.practicum.ewm.admin.exception.NotFoundCategoryId;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
+import ru.practicum.ewm.exception.NotFoundCategoryId;
 
 import java.util.List;
 

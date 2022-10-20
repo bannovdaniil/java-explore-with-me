@@ -2,12 +2,12 @@ package ru.practicum.ewm.admin.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.ewm.admin.exception.NotFoundCategoryId;
 import ru.practicum.ewm.admin.mapper.CategoryMapper;
 import ru.practicum.ewm.admin.model.Category;
 import ru.practicum.ewm.admin.repository.AdminCategoriesRepository;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
 import ru.practicum.ewm.dto.categories.CategoryInDto;
+import ru.practicum.ewm.exception.NotFoundCategoryId;
 
 @Service
 @RequiredArgsConstructor
