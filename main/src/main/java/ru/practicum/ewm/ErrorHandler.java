@@ -11,7 +11,8 @@ import ru.practicum.ewm.admin.controller.AdminCompilationsController;
 import ru.practicum.ewm.admin.controller.AdminEventsController;
 import ru.practicum.ewm.admin.controller.AdminUsersController;
 import ru.practicum.ewm.category.CategoryControler;
-import ru.practicum.ewm.exception.NotFoundCategoryId;
+import ru.practicum.ewm.exception.CategoryNotFoundException;
+import ru.practicum.ewm.exception.UserNotFoundException;
 
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
@@ -26,7 +27,9 @@ public class ErrorHandler {
     private ErrorResponse errorResponse;
 
     @ExceptionHandler({
-            NotFoundCategoryId.class})
+            CategoryNotFoundException.class,
+            UserNotFoundException.class
+    })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFound(final Exception e) {
         return new ErrorResponse(e.getMessage());
