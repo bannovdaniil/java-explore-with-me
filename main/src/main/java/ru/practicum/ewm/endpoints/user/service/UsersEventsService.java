@@ -17,4 +17,6 @@ public interface UsersEventsService {
     List<EventOutDto> findAllEvents(Long userId, Integer from, Integer size) throws UserNotFoundException;
 
     EventOutDto getEvent(Long userId, Long eventId) throws UserNotFoundException, EventNotFoundException;
+
+    EventOutDto cancelEvent(Long userId, Long eventId) throws UserNotFoundException, EventNotFoundException, EventClosedException;
 }

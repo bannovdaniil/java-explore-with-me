@@ -57,4 +57,10 @@ public class UsersEventsController {
         return usersEventsService.getEvent(userId, eventId);
     }
 
+    @PatchMapping("{eventId}")
+    public EventOutDto cancelEvent(@Positive @PathVariable Long userId,
+                                   @Positive @PathVariable Long eventId)
+            throws UserNotFoundException, EventNotFoundException, EventClosedException {
+        return usersEventsService.cancelEvent(userId, eventId);
+    }
 }
