@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface UsersEventsRepository extends JpaRepository<Event, Long> {
     List<Event> findAllByInitiatorId(Long userId, Pageable pageable);
-
 }

@@ -45,4 +45,11 @@ public class UsersEventsController {
         return usersEventsService.findAllEvents(userId, from, size);
     }
 
+    @GetMapping("{eventId}")
+    public EventOutDto getEvent(@Positive @PathVariable Long userId,
+                                @Positive @PathVariable Long eventId)
+            throws UserNotFoundException, EventNotFoundException {
+        return usersEventsService.getEvent(userId, eventId);
+    }
+
 }

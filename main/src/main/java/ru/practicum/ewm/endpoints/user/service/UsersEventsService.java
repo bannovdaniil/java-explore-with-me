@@ -14,4 +14,6 @@ public interface UsersEventsService {
     EventOutDto updateEvent(Long userId, EventInDto eventInDto) throws CategoryNotFoundException, UserNotFoundException, EventNotFoundException;
 
     List<EventOutDto> findAllEvents(Long userId, Integer from, Integer size) throws UserNotFoundException;
+
+    EventOutDto getEvent(Long userId, Long eventId) throws UserNotFoundException, EventNotFoundException;
 }

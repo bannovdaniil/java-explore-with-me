@@ -107,4 +107,16 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         return EventMapper.eventToListOutDto(usersEventsRepository.findAllByInitiatorId(userId, pageable));
     }
 
+    @Override
+    public EventOutDto getEvent(Long userId, Long eventId) throws UserNotFoundException, EventNotFoundException {
+        if (!adminUsersRepository.existsById(userId)) {
+            throw new UserNotFoundException("User ID not found.");
+        }
+        Event event = usersEventsRepository.findById(eventId).orElseThrow(
+                () -> new EventNotFoundException("Event ID not found.")
+        );
+
+        return EventMapper.eventToOutDto(event);
+    }
+
 }
