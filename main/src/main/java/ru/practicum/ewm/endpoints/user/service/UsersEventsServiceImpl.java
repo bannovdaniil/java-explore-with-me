@@ -13,6 +13,7 @@ import ru.practicum.ewm.endpoints.admin.repository.AdminCategoriesRepository;
 import ru.practicum.ewm.endpoints.admin.repository.AdminUsersRepository;
 import ru.practicum.ewm.endpoints.user.repository.UsersEventsRepository;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
+import ru.practicum.ewm.exception.EventClosedException;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
 import ru.practicum.ewm.mapper.EventMapper;
@@ -54,22 +55,30 @@ public class UsersEventsServiceImpl implements UsersEventsService {
     @Override
     @Transactional
     public EventOutDto updateEvent(Long userId, EventInDto eventInDto)
-            throws CategoryNotFoundException, UserNotFoundException, EventNotFoundException {
+            throws CategoryNotFoundException, UserNotFoundException, EventNotFoundException, EventClosedException {
         if (!adminUsersRepository.existsById(userId)) {
             throw new UserNotFoundException("User ID not found.");
         }
-
-        Event event = setNotNullParamToEntity(eventInDto);
-        return EventMapper.eventToOutDto(usersEventsRepository.saveAndFlush(event));
-    }
-
-    private Event setNotNullParamToEntity(EventInDto eventInDto) throws EventNotFoundException, CategoryNotFoundException {
         Event event = usersEventsRepository.findById(eventInDto.getEventId()).orElseThrow(
                 () -> new EventNotFoundException("Event ID not found.")
         );
+
+        if (event.getState() == EventState.PUBLISHED) {
+            throw new EventClosedException("Event is published.");
+        } else if (event.getState() == EventState.CANCELED) {
+            event.setState(EventState.PENDING);
+        }
+
+        setNotNullParamToEntity(eventInDto, event);
+
+        return EventMapper.eventToOutDto(usersEventsRepository.saveAndFlush(event));
+    }
+
+    private void setNotNullParamToEntity(EventInDto eventInDto, Event event)
+            throws CategoryNotFoundException {
         if (eventInDto.getCategory() != null) {
             if (!adminCategoriesRepository.existsById(eventInDto.getCategory())) {
-                throw new CategoryNotFoundException("Category ID not found.");
+                throw new CategoryNotFoundException("New Category ID not found.");
             }
             event.setCategory(adminCategoriesRepository.getReferenceById(eventInDto.getCategory()));
         }
@@ -94,7 +103,6 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         if (eventInDto.getRequestModeration() != null) {
             event.setRequestModeration(eventInDto.getRequestModeration());
         }
-        return event;
     }
 
     @Override

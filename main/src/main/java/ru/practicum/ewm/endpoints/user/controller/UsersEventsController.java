@@ -8,6 +8,7 @@ import ru.practicum.ewm.dto.events.EventInDto;
 import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.endpoints.user.service.UsersEventsService;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
+import ru.practicum.ewm.exception.EventClosedException;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
 
@@ -31,7 +32,11 @@ public class UsersEventsController {
 
     @PatchMapping
     public EventOutDto updateCategory(@Positive @PathVariable Long userId, @Valid @RequestBody EventInDto eventInDto)
-            throws CategoryNotFoundException, UserNotFoundException, EventNotFoundException {
+            throws
+            CategoryNotFoundException,
+            UserNotFoundException,
+            EventNotFoundException,
+            EventClosedException {
         return usersEventsService.updateEvent(userId, eventInDto);
     }
 

@@ -13,6 +13,7 @@ import ru.practicum.ewm.endpoints.admin.controller.AdminUsersController;
 import ru.practicum.ewm.endpoints.pub.categories.CategoriesController;
 import ru.practicum.ewm.endpoints.user.controller.UsersEventsController;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
+import ru.practicum.ewm.exception.EventClosedException;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
 
@@ -58,7 +59,8 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler({
-            DataIntegrityViolationException.class
+            DataIntegrityViolationException.class,
+            EventClosedException.class
     })
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleDoubleData(final Exception e) {
