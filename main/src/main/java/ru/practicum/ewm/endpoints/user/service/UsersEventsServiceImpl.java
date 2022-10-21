@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.dto.events.EventInDto;
 import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.dto.events.EventState;
@@ -20,6 +21,7 @@ import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.model.Event;
 
 import java.security.InvalidParameterException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,6 +30,12 @@ public class UsersEventsServiceImpl implements UsersEventsService {
     private final UsersEventsRepository usersEventsRepository;
     private final AdminCategoriesRepository adminCategoriesRepository;
     private final AdminUsersRepository adminUsersRepository;
+
+    private static void checkTimeOrThrow(LocalDateTime eventDate, int hours) {
+        if (eventDate.isBefore(LocalDateTime.now().plusHours(hours))) {
+            throw new InvalidParameterException("Event Time must be, late then two hours.");
+        }
+    }
 
     @Override
     @Transactional
@@ -44,6 +52,8 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         if (eventInDto.getPaid() == null) {
             throw new InvalidParameterException("Paid is null.");
         }
+        checkTimeOrThrow(eventInDto.getEventDate(), Constants.TIME_HOUR_BEFORE_START);
+
         Event event = EventMapper.dtoInToEvent(eventInDto, adminCategoriesRepository.getReferenceById(eventInDto.getCategory()));
         event.setInitiator(adminUsersRepository.getReferenceById(userId));
         event.setState(EventState.PENDING);
@@ -69,6 +79,11 @@ public class UsersEventsServiceImpl implements UsersEventsService {
             event.setState(EventState.PENDING);
         }
 
+        if (eventInDto.getEventDate() != null) {
+            event.setEventDate(eventInDto.getEventDate());
+        }
+        checkTimeOrThrow(event.getEventDate(), Constants.TIME_HOUR_BEFORE_START);
+
         setNotNullParamToEntity(eventInDto, event);
 
         return EventMapper.eventToOutDto(usersEventsRepository.saveAndFlush(event));
@@ -88,11 +103,11 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         if (eventInDto.getDescription() != null) {
             event.setDescription(eventInDto.getDescription());
         }
+        if (eventInDto.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
+            throw new InvalidParameterException("Event Time must be, late then two hours.");
+        }
         if (eventInDto.getTitle() != null) {
             event.setTitle(eventInDto.getTitle());
-        }
-        if (eventInDto.getEventDate() != null) {
-            event.setEventDate(eventInDto.getEventDate());
         }
         if (eventInDto.getPaid() != null) {
             event.setPaid(eventInDto.getPaid());
