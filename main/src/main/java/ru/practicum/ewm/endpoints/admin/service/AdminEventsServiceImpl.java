@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.Utils;
 import ru.practicum.ewm.dto.events.EventInDto;
@@ -101,6 +102,7 @@ public class AdminEventsServiceImpl implements AdminEventsService {
     }
 
     @Override
+    @Transactional
     public EventOutDto updateEvent(Long eventId, EventInDto eventInDto) throws EventNotFoundException, CategoryNotFoundException {
         Event event = eventsRepository.findById(eventId).orElseThrow(
                 () -> new EventNotFoundException("Event ID not found.")

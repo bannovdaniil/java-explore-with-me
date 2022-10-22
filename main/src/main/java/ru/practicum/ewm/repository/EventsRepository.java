@@ -19,4 +19,6 @@ public interface EventsRepository extends JpaRepository<Event, Long> {
             " AND e.eventDate BETWEEN :startDate AND :endDate "
     )
     List<Event> findAllByUsersAndStatesAndCetegories(Long[] users, List<EventState> states, Long[] categories, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+
+    Boolean existsByCategoryId(Long catId);
 }

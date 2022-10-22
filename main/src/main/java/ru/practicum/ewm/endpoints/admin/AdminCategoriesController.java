@@ -10,6 +10,7 @@ import ru.practicum.ewm.exception.CategoryNotFoundException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.nio.file.AccessDeniedException;
 
 @RestController
 @RequestMapping("/admin/categories")
@@ -29,7 +30,7 @@ public class AdminCategoriesController {
     }
 
     @DeleteMapping("{catId}")
-    void removeCategory(@Positive @PathVariable Long catId) throws CategoryNotFoundException {
+    void removeCategory(@Positive @PathVariable Long catId) throws CategoryNotFoundException, AccessDeniedException {
         adminCategoriesService.removeCategory(catId);
     }
 }

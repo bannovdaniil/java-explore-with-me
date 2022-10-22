@@ -77,7 +77,6 @@ public class UsersEventsServiceImpl implements UsersEventsService {
             event.setEventDate(eventInDto.getEventDate());
         }
         Utils.checkTimeBeforeOrThrow(event.getEventDate(), Constants.USER_TIME_HOUR_BEFORE_START);
-
         Utils.setNotNullParamToEntity(eventInDto, event, categoriesRepository);
 
         return EventMapper.eventToOutDto(eventsRepository.saveAndFlush(event));
