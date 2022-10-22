@@ -25,13 +25,13 @@ public class UsersEventsController {
     private final UsersEventsService usersEventsService;
 
     @PostMapping
-    public EventOutDto addCategory(@Positive @PathVariable Long userId, @Valid @RequestBody EventInDto eventInDto)
+    public EventOutDto addEvent(@Positive @PathVariable Long userId, @Valid @RequestBody EventInDto eventInDto)
             throws CategoryNotFoundException, UserNotFoundException {
         return usersEventsService.addEvent(userId, eventInDto);
     }
 
     @PatchMapping
-    public EventOutDto updateCategory(@Positive @PathVariable Long userId, @Valid @RequestBody EventInDto eventInDto)
+    public EventOutDto updateEvent(@Positive @PathVariable Long userId, @Valid @RequestBody EventInDto eventInDto)
             throws
             CategoryNotFoundException,
             UserNotFoundException,
