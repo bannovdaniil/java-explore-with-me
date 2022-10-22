@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.Constants;
+import ru.practicum.ewm.Utils;
 import ru.practicum.ewm.dto.events.EventInDto;
 import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.dto.events.EventState;
@@ -31,12 +32,6 @@ public class UsersEventsServiceImpl implements UsersEventsService {
     private final AdminCategoriesRepository adminCategoriesRepository;
     private final AdminUsersRepository adminUsersRepository;
 
-    private static void checkTimeOrThrow(LocalDateTime eventDate, int hours) {
-        if (eventDate.isBefore(LocalDateTime.now().plusHours(hours))) {
-            throw new InvalidParameterException("Event Time must be, late then two hours.");
-        }
-    }
-
     @Override
     @Transactional
     public EventOutDto addEvent(Long userId, EventInDto eventInDto) throws CategoryNotFoundException, UserNotFoundException {
@@ -52,7 +47,7 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         if (eventInDto.getPaid() == null) {
             throw new InvalidParameterException("Paid is null.");
         }
-        checkTimeOrThrow(eventInDto.getEventDate(), Constants.TIME_HOUR_BEFORE_START);
+        Utils.checkTimeBeforeOrThrow(eventInDto.getEventDate(), Constants.USER_TIME_HOUR_BEFORE_START);
 
         Event event = EventMapper.dtoInToEvent(eventInDto, adminCategoriesRepository.getReferenceById(eventInDto.getCategory()));
         event.setInitiator(adminUsersRepository.getReferenceById(userId));
@@ -82,7 +77,7 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         if (eventInDto.getEventDate() != null) {
             event.setEventDate(eventInDto.getEventDate());
         }
-        checkTimeOrThrow(event.getEventDate(), Constants.TIME_HOUR_BEFORE_START);
+        Utils.checkTimeBeforeOrThrow(event.getEventDate(), Constants.USER_TIME_HOUR_BEFORE_START);
 
         setNotNullParamToEntity(eventInDto, event);
 
