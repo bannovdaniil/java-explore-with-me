@@ -1,16 +1,18 @@
-package ru.practicum.ewm.endpoints.admin.controller;
+package ru.practicum.ewm.endpoints.admin;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
+import ru.practicum.ewm.dto.events.EventInDto;
 import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.endpoints.admin.service.AdminEventsService;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
+import ru.practicum.ewm.exception.EventClosedException;
+import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/events")
 @RequiredArgsConstructor
+@Validated
 public class AdminEventsController {
     private final AdminEventsService adminEventsService;
 
@@ -35,29 +38,23 @@ public class AdminEventsController {
             throws UserNotFoundException, CategoryNotFoundException {
         return adminEventsService.findAllEvents(users, states, categories, rangeStart, rangeEnd, from, size);
     }
-//
-//    @PutMapping("{eventId}")
-//    public EventOutDto updateEvent(@Positive @PathVariable Long userId, @Valid @RequestBody EventInDto eventInDto)
-//            throws
-//            CategoryNotFoundException,
-//            UserNotFoundException,
-//            EventNotFoundException,
-//            EventClosedException {
-//        return adminEventsService.updateEvent(userId, eventInDto);
-//    }
-//
-//
-//    @GetMapping("{eventId}")
-//    public EventOutDto getEvent(@Positive @PathVariable Long userId,
-//                                @Positive @PathVariable Long eventId)
-//            throws UserNotFoundException, EventNotFoundException {
-//        return adminEventsService.getEvent(userId, eventId);
-//    }
-//
-//    @PatchMapping("{eventId}")
-//    public EventOutDto cancelEvent(@Positive @PathVariable Long userId,
-//                                   @Positive @PathVariable Long eventId)
-//            throws UserNotFoundException, EventNotFoundException, EventClosedException {
-//        return adminEventsService.cancelEvent(userId, eventId);
-//    }
+
+    @PatchMapping("{eventId}/publish")
+    public EventOutDto publishEvent(@Positive @PathVariable Long eventId)
+            throws EventNotFoundException, EventClosedException {
+        return adminEventsService.publishEvent(eventId);
+    }
+
+    @PatchMapping("{eventId}/reject")
+    public EventOutDto rejectEvent(@Positive @PathVariable Long eventId)
+            throws EventNotFoundException, EventClosedException {
+        return adminEventsService.rejectEvent(eventId);
+    }
+
+    @PutMapping("{eventId}")
+    public EventOutDto rejectEvent(@Positive @PathVariable Long eventId,
+                                   @Valid @RequestBody EventInDto eventInDto)
+            throws EventNotFoundException, CategoryNotFoundException {
+        return adminEventsService.updateEvent(eventId, eventInDto);
+    }
 }

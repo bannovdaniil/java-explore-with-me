@@ -6,12 +6,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.practicum.ewm.endpoints.admin.controller.AdminCategoriesController;
-import ru.practicum.ewm.endpoints.admin.controller.AdminCompilationsController;
-import ru.practicum.ewm.endpoints.admin.controller.AdminEventsController;
-import ru.practicum.ewm.endpoints.admin.controller.AdminUsersController;
-import ru.practicum.ewm.endpoints.pub.categories.CategoriesController;
-import ru.practicum.ewm.endpoints.user.controller.UsersEventsController;
+import ru.practicum.ewm.endpoints.admin.AdminCategoriesController;
+import ru.practicum.ewm.endpoints.admin.AdminCompilationsController;
+import ru.practicum.ewm.endpoints.admin.AdminEventsController;
+import ru.practicum.ewm.endpoints.admin.AdminUsersController;
+import ru.practicum.ewm.endpoints.pub.PublicCategoriesController;
+import ru.practicum.ewm.endpoints.user.UsersEventsController;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
 import ru.practicum.ewm.exception.EventClosedException;
 import ru.practicum.ewm.exception.EventNotFoundException;
@@ -20,14 +20,15 @@ import ru.practicum.ewm.exception.UserNotFoundException;
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
 
-@RestControllerAdvice(assignableTypes = {
-        AdminUsersController.class,
-        AdminCategoriesController.class,
-        AdminCompilationsController.class,
-        AdminEventsController.class,
-        UsersEventsController.class,
-//        UsersRequestsController.class,
-        CategoriesController.class})
+@RestControllerAdvice(
+        assignableTypes = {
+                AdminUsersController.class,
+                AdminCategoriesController.class,
+                AdminCompilationsController.class,
+                AdminEventsController.class,
+                UsersEventsController.class,
+                PublicCategoriesController.class
+        })
 public class ErrorHandler {
     private ErrorResponse errorResponse;
 

@@ -29,6 +29,7 @@ public class EventOutDto {
     private Long id;
     private Boolean paid;
     private Integer participantLimit;
+    @JsonFormat(pattern = Constants.DATE_TIME_STRING)
     private LocalDateTime publishedOn;
     private Boolean requestModeration;
     private EventState state;

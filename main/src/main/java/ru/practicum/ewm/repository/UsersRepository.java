@@ -1,4 +1,4 @@
-package ru.practicum.ewm.endpoints.admin.repository;
+package ru.practicum.ewm.repository;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,7 +7,7 @@ import ru.practicum.ewm.model.User;
 
 import java.util.List;
 
-public interface AdminUsersRepository extends JpaRepository<User, Long> {
+public interface UsersRepository extends JpaRepository<User, Long> {
     @Query(
             "SELECT u FROM User as u WHERE u.id in :ids"
     )

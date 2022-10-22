@@ -1,4 +1,4 @@
-package ru.practicum.ewm.endpoints.admin.controller;
+package ru.practicum.ewm.endpoints.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

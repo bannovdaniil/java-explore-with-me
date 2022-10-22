@@ -11,5 +11,4 @@ public interface AdminUsersService {
     List<UserDto> findAll(Long[] ids, Integer from, Integer size);
 
     void deleteUserById(Long userId) throws UserNotFoundException;
-
 }

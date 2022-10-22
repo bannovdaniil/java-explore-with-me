@@ -11,34 +11,33 @@ import ru.practicum.ewm.Utils;
 import ru.practicum.ewm.dto.events.EventInDto;
 import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.dto.events.EventState;
-import ru.practicum.ewm.endpoints.admin.repository.AdminCategoriesRepository;
-import ru.practicum.ewm.endpoints.admin.repository.AdminUsersRepository;
-import ru.practicum.ewm.endpoints.user.repository.UsersEventsRepository;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
 import ru.practicum.ewm.exception.EventClosedException;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
 import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.model.Event;
+import ru.practicum.ewm.repository.CategoriesRepository;
+import ru.practicum.ewm.repository.EventsRepository;
+import ru.practicum.ewm.repository.UsersRepository;
 
 import java.security.InvalidParameterException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UsersEventsServiceImpl implements UsersEventsService {
-    private final UsersEventsRepository usersEventsRepository;
-    private final AdminCategoriesRepository adminCategoriesRepository;
-    private final AdminUsersRepository adminUsersRepository;
+    private final EventsRepository eventsRepository;
+    private final CategoriesRepository categoriesRepository;
+    private final UsersRepository usersRepository;
 
     @Override
     @Transactional
     public EventOutDto addEvent(Long userId, EventInDto eventInDto) throws CategoryNotFoundException, UserNotFoundException {
-        if (!adminCategoriesRepository.existsById(eventInDto.getCategory())) {
+        if (!categoriesRepository.existsById(eventInDto.getCategory())) {
             throw new CategoryNotFoundException("Category ID not found.");
         }
-        if (!adminUsersRepository.existsById(userId)) {
+        if (!usersRepository.existsById(userId)) {
             throw new UserNotFoundException("User ID not found.");
         }
         if (eventInDto.getLocation() == null) {
@@ -49,22 +48,22 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         }
         Utils.checkTimeBeforeOrThrow(eventInDto.getEventDate(), Constants.USER_TIME_HOUR_BEFORE_START);
 
-        Event event = EventMapper.dtoInToEvent(eventInDto, adminCategoriesRepository.getReferenceById(eventInDto.getCategory()));
-        event.setInitiator(adminUsersRepository.getReferenceById(userId));
+        Event event = EventMapper.dtoInToEvent(eventInDto, categoriesRepository.getReferenceById(eventInDto.getCategory()));
+        event.setInitiator(usersRepository.getReferenceById(userId));
         event.setState(EventState.PENDING);
         event.setConfirmedRequests(0);
         event.setViews(0L);
-        return EventMapper.eventToOutDto(usersEventsRepository.saveAndFlush(event));
+        return EventMapper.eventToOutDto(eventsRepository.saveAndFlush(event));
     }
 
     @Override
     @Transactional
     public EventOutDto updateEvent(Long userId, EventInDto eventInDto)
             throws CategoryNotFoundException, UserNotFoundException, EventNotFoundException, EventClosedException {
-        if (!adminUsersRepository.existsById(userId)) {
+        if (!usersRepository.existsById(userId)) {
             throw new UserNotFoundException("User ID not found.");
         }
-        Event event = usersEventsRepository.findById(eventInDto.getEventId()).orElseThrow(
+        Event event = eventsRepository.findById(eventInDto.getEventId()).orElseThrow(
                 () -> new EventNotFoundException("Event ID not found.")
         );
 
@@ -79,58 +78,27 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         }
         Utils.checkTimeBeforeOrThrow(event.getEventDate(), Constants.USER_TIME_HOUR_BEFORE_START);
 
-        setNotNullParamToEntity(eventInDto, event);
+        Utils.setNotNullParamToEntity(eventInDto, event, categoriesRepository);
 
-        return EventMapper.eventToOutDto(usersEventsRepository.saveAndFlush(event));
-    }
-
-    private void setNotNullParamToEntity(EventInDto eventInDto, Event event)
-            throws CategoryNotFoundException {
-        if (eventInDto.getCategory() != null) {
-            if (!adminCategoriesRepository.existsById(eventInDto.getCategory())) {
-                throw new CategoryNotFoundException("New Category ID not found.");
-            }
-            event.setCategory(adminCategoriesRepository.getReferenceById(eventInDto.getCategory()));
-        }
-        if (eventInDto.getAnnotation() != null) {
-            event.setAnnotation(eventInDto.getAnnotation());
-        }
-        if (eventInDto.getDescription() != null) {
-            event.setDescription(eventInDto.getDescription());
-        }
-        if (eventInDto.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
-            throw new InvalidParameterException("Event Time must be, late then two hours.");
-        }
-        if (eventInDto.getTitle() != null) {
-            event.setTitle(eventInDto.getTitle());
-        }
-        if (eventInDto.getPaid() != null) {
-            event.setPaid(eventInDto.getPaid());
-        }
-        if (eventInDto.getParticipantLimit() != null) {
-            event.setParticipantLimit(eventInDto.getParticipantLimit());
-        }
-        if (eventInDto.getRequestModeration() != null) {
-            event.setRequestModeration(eventInDto.getRequestModeration());
-        }
+        return EventMapper.eventToOutDto(eventsRepository.saveAndFlush(event));
     }
 
     @Override
     public List<EventOutDto> findAllEvents(Long userId, Integer from, Integer size) throws UserNotFoundException {
-        if (!adminUsersRepository.existsById(userId)) {
+        if (!usersRepository.existsById(userId)) {
             throw new UserNotFoundException("User ID not found.");
         }
         Sort sort = Sort.sort(Event.class).by(Event::getEventDate).descending();
         Pageable pageable = PageRequest.of(from / size, size, sort);
-        return EventMapper.eventToListOutDto(usersEventsRepository.findAllByInitiatorId(userId, pageable));
+        return EventMapper.eventToListOutDto(eventsRepository.findAllByInitiatorId(userId, pageable));
     }
 
     @Override
     public EventOutDto getEvent(Long userId, Long eventId) throws UserNotFoundException, EventNotFoundException {
-        if (!adminUsersRepository.existsById(userId)) {
+        if (!usersRepository.existsById(userId)) {
             throw new UserNotFoundException("User ID not found.");
         }
-        Event event = usersEventsRepository.findById(eventId).orElseThrow(
+        Event event = eventsRepository.findById(eventId).orElseThrow(
                 () -> new EventNotFoundException("Event ID not found.")
         );
 
@@ -139,10 +107,10 @@ public class UsersEventsServiceImpl implements UsersEventsService {
 
     @Override
     public EventOutDto cancelEvent(Long userId, Long eventId) throws UserNotFoundException, EventNotFoundException, EventClosedException {
-        if (!adminUsersRepository.existsById(userId)) {
+        if (!usersRepository.existsById(userId)) {
             throw new UserNotFoundException("User ID not found.");
         }
-        Event event = usersEventsRepository.findById(eventId).orElseThrow(
+        Event event = eventsRepository.findById(eventId).orElseThrow(
                 () -> new EventNotFoundException("Event ID not found.")
         );
         if (event.getState() != EventState.PENDING) {
@@ -150,7 +118,7 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         }
         event.setState(EventState.CANCELED);
 
-        return EventMapper.eventToOutDto(usersEventsRepository.saveAndFlush(event));
+        return EventMapper.eventToOutDto(eventsRepository.saveAndFlush(event));
     }
 
 }
