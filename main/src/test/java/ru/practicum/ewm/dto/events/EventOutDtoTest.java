@@ -58,4 +58,22 @@ class EventOutDtoTest {
         assertThat(result).extractingJsonPathStringValue("$.title").isEqualTo(dto.getTitle());
     }
 
+    @Test
+    void testBuilderSerialize() throws Exception {
+        var dto = EventOutDto.builder()
+                .annotation("annotation 1234566778891234567898765432")
+                .title("title")
+                .description("description12345678909876544332122145678765432")
+                .build();
+
+        var result = json.write(dto);
+        assertThat(result).hasJsonPath("$.annotation");
+        assertThat(result).hasJsonPath("$.title");
+        assertThat(result).hasJsonPath("$.description");
+
+        assertThat(result).extractingJsonPathStringValue("$.annotation").isEqualTo(dto.getAnnotation());
+        assertThat(result).extractingJsonPathStringValue("$.description").isEqualTo(dto.getDescription());
+        assertThat(result).extractingJsonPathStringValue("$.title").isEqualTo(dto.getTitle());
+    }
+
 }
