@@ -11,6 +11,8 @@ import ru.practicum.ewm.endpoints.admin.AdminCompilationsController;
 import ru.practicum.ewm.endpoints.admin.AdminEventsController;
 import ru.practicum.ewm.endpoints.admin.AdminUsersController;
 import ru.practicum.ewm.endpoints.pub.PublicCategoriesController;
+import ru.practicum.ewm.endpoints.pub.PublicCompilationsController;
+import ru.practicum.ewm.endpoints.pub.PublicEventsController;
 import ru.practicum.ewm.endpoints.user.UsersEventsController;
 import ru.practicum.ewm.exception.*;
 
@@ -24,7 +26,9 @@ import java.security.InvalidParameterException;
                 AdminCompilationsController.class,
                 AdminEventsController.class,
                 UsersEventsController.class,
-                PublicCategoriesController.class
+                PublicCategoriesController.class,
+                PublicCompilationsController.class,
+                PublicEventsController.class
         })
 public class ErrorHandler {
     private ErrorResponse errorResponse;

@@ -2,7 +2,6 @@ package ru.practicum.ewm.model;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import ru.practicum.ewm.dto.events.EventState;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

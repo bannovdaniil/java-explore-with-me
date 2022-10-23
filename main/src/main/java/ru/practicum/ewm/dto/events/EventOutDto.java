@@ -6,6 +6,7 @@ import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
 import ru.practicum.ewm.dto.locations.LocationDto;
 import ru.practicum.ewm.dto.users.UserDto;
+import ru.practicum.ewm.model.EventState;
 
 import java.time.LocalDateTime;
 
