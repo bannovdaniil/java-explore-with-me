@@ -27,7 +27,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     }
 
     @Override
-    public CategoryFullDto findCategoriesById(Long catId) throws CategoryNotFoundException {
+    public CategoryFullDto findCategoryById(Long catId) throws CategoryNotFoundException {
         return CategoryMapper.categoryToDtoOut(categoriesRepository.findById(catId).orElseThrow(
                 () -> new CategoryNotFoundException("Category ID was not found.")
         ));

@@ -29,7 +29,7 @@ public class PublicCategoriesController {
     }
 
     @GetMapping("{catId}")
-    public CategoryFullDto findCategoriesById(@Positive @PathVariable Long catId) throws CategoryNotFoundException {
-        return categoriesService.findCategoriesById(catId);
+    public CategoryFullDto findCategoryById(@Positive @PathVariable Long catId) throws CategoryNotFoundException {
+        return categoriesService.findCategoryById(catId);
     }
 }

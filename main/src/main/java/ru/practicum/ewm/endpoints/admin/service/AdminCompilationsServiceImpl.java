@@ -30,12 +30,12 @@ public class AdminCompilationsServiceImpl implements AdminCompilationsService {
     }
 
     @Override
-    @Transactional
     public void removeCompilation(Long compId) throws CompilationNotFoundException {
         if (!compilationsRepository.existsById(compId)) {
             throw new CompilationNotFoundException("Compilation ID not found.");
         }
         compilationsRepository.deleteById(compId);
+        compilationsRepository.flush();
     }
 
     @Override

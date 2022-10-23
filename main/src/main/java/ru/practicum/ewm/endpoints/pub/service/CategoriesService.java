@@ -8,5 +8,5 @@ import java.util.List;
 public interface CategoriesService {
     List<CategoryFullDto> findAllCategories(Integer from, Integer size);
 
-    CategoryFullDto findCategoriesById(Long catId) throws CategoryNotFoundException;
+    CategoryFullDto findCategoryById(Long catId) throws CategoryNotFoundException;
 }

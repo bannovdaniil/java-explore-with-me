@@ -5,6 +5,7 @@ import ru.practicum.ewm.dto.compilations.CompilationOutDto;
 import ru.practicum.ewm.model.Compilation;
 import ru.practicum.ewm.model.Event;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompilationMapper {
@@ -24,5 +25,13 @@ public class CompilationMapper {
                 EventMapper.eventToListOutDto(compilation.getEvents()),
                 compilation.getPinned()
         );
+    }
+
+    public static List<CompilationOutDto> compilationToListOutDto(List<Compilation> compilationList) {
+        List<CompilationOutDto> compilationOutDtos = new ArrayList<>();
+        for (Compilation compilation : compilationList) {
+            compilationOutDtos.add(compilationToOutDto(compilation));
+        }
+        return compilationOutDtos;
     }
 }
