@@ -56,13 +56,17 @@ CREATE TABLE IF NOT EXISTS events
 
 CREATE TABLE IF NOT EXISTS compilations
 (
-    id       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    pinned   BOOLEAN default false,
-    title    VARCHAR(120),
-    event_id BIGINT NOT NULL
-        CONSTRAINT compilations_events_fkey REFERENCES events
+    id     BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    title  VARCHAR(120),
+    pinned BOOLEAN default false
 );
 
+CREATE TABLE IF NOT EXISTS compilations_events
+(
+    id             BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    event_id       BIGINT REFERENCES events (id),
+    compilation_id BIGINT REFERENCES compilations (id)
+);
 
 CREATE TABLE IF NOT EXISTS requests
 (

@@ -6,9 +6,11 @@ import ru.practicum.ewm.dto.events.EventState;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "EVENTS", schema = "PUBLIC")
+@EqualsAndHashCode(exclude = "compilations")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -38,6 +40,12 @@ public class Event {
     private Boolean requestModeration;
     private String title;
     private Long views;
+
+    @ManyToMany
+    @JoinTable(name = "COMPILATIONS_EVENTS",
+            joinColumns = @JoinColumn(name = "EVENT_ID"),
+            inverseJoinColumns = @JoinColumn(name = "COMPILATION_ID"))
+    private List<Compilation> compilations;
 
     @Enumerated(EnumType.STRING)
     private EventState state;
