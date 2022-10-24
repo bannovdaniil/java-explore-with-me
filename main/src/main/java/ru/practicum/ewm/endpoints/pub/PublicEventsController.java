@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
-import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.endpoints.pub.service.EventsService;
 import ru.practicum.ewm.exception.EventNotFoundException;
+import ru.practicum.ewm.model.dto.events.EventOutDto;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;

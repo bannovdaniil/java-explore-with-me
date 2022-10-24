@@ -1,8 +1,8 @@
 package ru.practicum.ewm.endpoints.admin.service;
 
-import ru.practicum.ewm.dto.categories.CategoryFullDto;
-import ru.practicum.ewm.dto.categories.CategoryInDto;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
+import ru.practicum.ewm.model.dto.categories.CategoryFullDto;
+import ru.practicum.ewm.model.dto.categories.CategoryInDto;
 
 import java.nio.file.AccessDeniedException;
 

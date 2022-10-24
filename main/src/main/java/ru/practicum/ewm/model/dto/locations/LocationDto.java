@@ -1,17 +1,15 @@
-package ru.practicum.ewm.dto.categories;
+package ru.practicum.ewm.model.dto.locations;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryInDto {
-    @NotBlank
-    private String name;
+public class LocationDto {
+    private float lat;
+    private float lon;
 }

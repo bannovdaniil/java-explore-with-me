@@ -3,13 +3,13 @@ package ru.practicum.ewm.endpoints.admin.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.ewm.dto.compilations.CompilationInDto;
-import ru.practicum.ewm.dto.compilations.CompilationOutDto;
 import ru.practicum.ewm.exception.CompilationNotFoundException;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.mapper.CompilationMapper;
 import ru.practicum.ewm.model.Compilation;
 import ru.practicum.ewm.model.Event;
+import ru.practicum.ewm.model.dto.compilations.CompilationInDto;
+import ru.practicum.ewm.model.dto.compilations.CompilationOutDto;
 import ru.practicum.ewm.repository.CompilationsRepository;
 import ru.practicum.ewm.repository.EventsRepository;
 

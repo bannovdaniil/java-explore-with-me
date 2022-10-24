@@ -1,9 +1,9 @@
 package ru.practicum.ewm.mapper;
 
-import ru.practicum.ewm.dto.events.EventInDto;
-import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.model.Category;
 import ru.practicum.ewm.model.Event;
+import ru.practicum.ewm.model.dto.events.EventInDto;
+import ru.practicum.ewm.model.dto.events.EventOutDto;
 
 import java.util.ArrayList;
 import java.util.List;

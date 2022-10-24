@@ -1,7 +1,7 @@
 package ru.practicum.ewm.mapper;
 
-import ru.practicum.ewm.dto.users.UserDto;
 import ru.practicum.ewm.model.User;
+import ru.practicum.ewm.model.dto.users.UserDto;
 
 import java.util.ArrayList;
 import java.util.List;

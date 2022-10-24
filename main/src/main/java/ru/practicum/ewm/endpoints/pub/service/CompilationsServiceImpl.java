@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.practicum.ewm.dto.compilations.CompilationOutDto;
 import ru.practicum.ewm.exception.CompilationNotFoundException;
 import ru.practicum.ewm.mapper.CompilationMapper;
+import ru.practicum.ewm.model.dto.compilations.CompilationOutDto;
 import ru.practicum.ewm.repository.CompilationsRepository;
 
 import java.util.List;

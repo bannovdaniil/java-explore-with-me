@@ -3,11 +3,11 @@ package ru.practicum.ewm.endpoints.admin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.ewm.dto.compilations.CompilationInDto;
-import ru.practicum.ewm.dto.compilations.CompilationOutDto;
 import ru.practicum.ewm.endpoints.admin.service.AdminCompilationsService;
 import ru.practicum.ewm.exception.CompilationNotFoundException;
 import ru.practicum.ewm.exception.EventNotFoundException;
+import ru.practicum.ewm.model.dto.compilations.CompilationInDto;
+import ru.practicum.ewm.model.dto.compilations.CompilationOutDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;

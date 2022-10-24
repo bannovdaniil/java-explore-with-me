@@ -1,7 +1,7 @@
 package ru.practicum.ewm.endpoints.pub.service;
 
-import ru.practicum.ewm.dto.compilations.CompilationOutDto;
 import ru.practicum.ewm.exception.CompilationNotFoundException;
+import ru.practicum.ewm.model.dto.compilations.CompilationOutDto;
 
 import java.util.List;
 

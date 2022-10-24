@@ -1,8 +1,8 @@
 package ru.practicum.ewm;
 
-import ru.practicum.ewm.dto.events.EventInDto;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
 import ru.practicum.ewm.model.Event;
+import ru.practicum.ewm.model.dto.events.EventInDto;
 import ru.practicum.ewm.repository.CategoriesRepository;
 
 import java.security.InvalidParameterException;

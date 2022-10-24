@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
-import ru.practicum.ewm.dto.compilations.CompilationOutDto;
 import ru.practicum.ewm.endpoints.pub.service.CompilationsService;
 import ru.practicum.ewm.exception.CompilationNotFoundException;
+import ru.practicum.ewm.model.dto.compilations.CompilationOutDto;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;

@@ -70,12 +70,10 @@ CREATE TABLE IF NOT EXISTS compilations_events
 
 CREATE TABLE IF NOT EXISTS requests
 (
-    id        BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    requester BIGINT NOT NULL
-        CONSTRAINT requests_users_fkey REFERENCES users,
-    title     VARCHAR(120),
-    created   TIMESTAMP,
-    status    VARCHAR(15),
-    event_id  BIGINT NOT NULL
-        CONSTRAINT requests_events_fkey REFERENCES events
+    id           BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    requester_id BIGINT REFERENCES users (id),
+    created      TIMESTAMP,
+    status       VARCHAR(15),
+    event_id     BIGINT REFERENCES events (id),
+    UNIQUE (event_id, requester_id)
 );

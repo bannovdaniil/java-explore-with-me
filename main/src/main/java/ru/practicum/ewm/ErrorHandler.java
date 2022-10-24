@@ -14,6 +14,7 @@ import ru.practicum.ewm.endpoints.pub.PublicCategoriesController;
 import ru.practicum.ewm.endpoints.pub.PublicCompilationsController;
 import ru.practicum.ewm.endpoints.pub.PublicEventsController;
 import ru.practicum.ewm.endpoints.user.UsersEventsController;
+import ru.practicum.ewm.endpoints.user.UsersRequestsController;
 import ru.practicum.ewm.exception.*;
 
 import java.nio.file.AccessDeniedException;
@@ -26,6 +27,7 @@ import java.security.InvalidParameterException;
                 AdminCompilationsController.class,
                 AdminEventsController.class,
                 UsersEventsController.class,
+                UsersRequestsController.class,
                 PublicCategoriesController.class,
                 PublicCompilationsController.class,
                 PublicEventsController.class
@@ -54,7 +56,8 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler({
-            IllegalArgumentException.class
+            IllegalArgumentException.class,
+            UserRequestHimselfException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleArgumentBadRequest(final Exception e) {

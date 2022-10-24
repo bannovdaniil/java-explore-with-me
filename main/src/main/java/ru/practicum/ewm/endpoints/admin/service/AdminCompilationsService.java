@@ -1,9 +1,9 @@
 package ru.practicum.ewm.endpoints.admin.service;
 
-import ru.practicum.ewm.dto.compilations.CompilationInDto;
-import ru.practicum.ewm.dto.compilations.CompilationOutDto;
 import ru.practicum.ewm.exception.CompilationNotFoundException;
 import ru.practicum.ewm.exception.EventNotFoundException;
+import ru.practicum.ewm.model.dto.compilations.CompilationInDto;
+import ru.practicum.ewm.model.dto.compilations.CompilationOutDto;
 
 public interface AdminCompilationsService {
 
