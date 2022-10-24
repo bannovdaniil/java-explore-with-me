@@ -10,6 +10,7 @@ import ru.practicum.ewm.exception.UserRequestHimselfException;
 import ru.practicum.ewm.model.dto.requests.RequestOutDto;
 
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users/{userId}/requests")
@@ -23,6 +24,13 @@ public class UsersRequestsController {
                                     @Positive @RequestParam(name = "eventId") Long eventId)
             throws UserNotFoundException, EventNotFoundException, UserRequestHimselfException {
         return requestsService.addRequest(userId, eventId);
+    }
+
+
+    @GetMapping
+    public List<RequestOutDto> findAllRequests(@Positive @PathVariable Long userId)
+            throws UserNotFoundException {
+        return requestsService.findAllRequests(userId);
     }
 
 }

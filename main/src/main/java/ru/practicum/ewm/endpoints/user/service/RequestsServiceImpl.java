@@ -16,6 +16,7 @@ import ru.practicum.ewm.repository.RequestsRepository;
 import ru.practicum.ewm.repository.UsersRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +46,14 @@ public class RequestsServiceImpl implements RequestsService {
                 event
         );
 
-        return RequestMapper.requestToDto(requestsRepository.saveAndFlush(request));
+        return RequestMapper.requestToOutDto(requestsRepository.saveAndFlush(request));
+    }
+
+    @Override
+    public List<RequestOutDto> findAllRequests(Long userId) throws UserNotFoundException {
+        if (!usersRepository.existsById(userId)) {
+            throw new UserNotFoundException("User ID not found.");
+        }
+        return RequestMapper.requestsToListOutDto(requestsRepository.findAllByRequesterId(userId));
     }
 }
