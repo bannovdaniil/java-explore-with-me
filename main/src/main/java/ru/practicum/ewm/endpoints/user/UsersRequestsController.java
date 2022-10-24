@@ -3,6 +3,7 @@ package ru.practicum.ewm.endpoints.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ewm.endpoints.user.service.RequestNotFoundException;
 import ru.practicum.ewm.endpoints.user.service.RequestsService;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
@@ -26,11 +27,16 @@ public class UsersRequestsController {
         return requestsService.addRequest(userId, eventId);
     }
 
-
     @GetMapping
     public List<RequestOutDto> findAllRequests(@Positive @PathVariable Long userId)
             throws UserNotFoundException {
         return requestsService.findAllRequests(userId);
     }
 
+    @PatchMapping("{requestId}/cancel")
+    public RequestOutDto cancelRequest(@Positive @PathVariable Long userId,
+                                       @Positive @PathVariable Long requestId)
+            throws UserNotFoundException, RequestNotFoundException {
+        return requestsService.cancelRequest(userId, requestId);
+    }
 }

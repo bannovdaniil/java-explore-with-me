@@ -14,7 +14,9 @@ import ru.practicum.ewm.endpoints.pub.PublicCategoriesController;
 import ru.practicum.ewm.endpoints.pub.PublicCompilationsController;
 import ru.practicum.ewm.endpoints.pub.PublicEventsController;
 import ru.practicum.ewm.endpoints.user.UsersEventsController;
+import ru.practicum.ewm.endpoints.user.UsersEventsRequestsController;
 import ru.practicum.ewm.endpoints.user.UsersRequestsController;
+import ru.practicum.ewm.endpoints.user.service.RequestNotFoundException;
 import ru.practicum.ewm.exception.*;
 
 import java.nio.file.AccessDeniedException;
@@ -28,6 +30,7 @@ import java.security.InvalidParameterException;
                 AdminEventsController.class,
                 UsersEventsController.class,
                 UsersRequestsController.class,
+                UsersEventsRequestsController.class,
                 PublicCategoriesController.class,
                 PublicCompilationsController.class,
                 PublicEventsController.class
@@ -39,6 +42,7 @@ public class ErrorHandler {
             CategoryNotFoundException.class,
             EventNotFoundException.class,
             UserNotFoundException.class,
+            RequestNotFoundException.class,
             CompilationNotFoundException.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -57,6 +61,7 @@ public class ErrorHandler {
 
     @ExceptionHandler({
             IllegalArgumentException.class,
+            IllegalStateException.class,
             UserRequestHimselfException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)

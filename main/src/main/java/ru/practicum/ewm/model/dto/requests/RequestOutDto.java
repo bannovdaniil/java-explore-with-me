@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.practicum.ewm.Constants;
-import ru.practicum.ewm.model.dto.RequestState;
+import ru.practicum.ewm.model.RequestState;
 
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
