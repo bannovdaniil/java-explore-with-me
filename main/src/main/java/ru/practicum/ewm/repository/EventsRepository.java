@@ -27,6 +27,8 @@ public interface EventsRepository extends JpaRepository<Event, Long> {
 
     Boolean existsByIdAndState(Long eventId, EventState eventState);
 
+    Boolean existsByInitiatorId(Long userId);
+
     Optional<Event> findByIdAndState(Long eventId, EventState published);
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
@@ -42,7 +44,11 @@ public interface EventsRepository extends JpaRepository<Event, Long> {
             " AND e.category.id IN :categories " +
             " AND e.paid = :paid " +
             " AND (e.eventDate BETWEEN :rangeStart AND :rangeEnd) " +
-            " AND ((:onlyAvailable = true AND e.participantLimit > e.confirmedRequests) OR (:onlyAvailable = false)) "
+            " AND (" +
+            " (:onlyAvailable = true AND e.participantLimit = 0) OR " +
+            " (:onlyAvailable = true AND e.participantLimit > e.confirmedRequests) OR " +
+            " (:onlyAvailable = false)" +
+            ") "
     )
     List<Event> findAllByParam(String text,
                                Long[] categories,
