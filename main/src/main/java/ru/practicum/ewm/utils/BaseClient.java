@@ -1,4 +1,4 @@
-package ru.practicum.ewm.client;
+package ru.practicum.ewm.utils;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;

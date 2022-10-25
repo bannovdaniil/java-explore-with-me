@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.MainAPI;
-import ru.practicum.ewm.client.AdminStatsClient;
 import ru.practicum.ewm.dto.stats.StatInDto;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.mapper.EventMapper;
@@ -16,6 +15,7 @@ import ru.practicum.ewm.model.Event;
 import ru.practicum.ewm.model.EventState;
 import ru.practicum.ewm.model.dto.events.EventOutDto;
 import ru.practicum.ewm.repository.EventsRepository;
+import ru.practicum.ewm.utils.AdminStatsClient;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -65,7 +65,7 @@ public class EventsServiceImpl implements EventsService {
                                            Boolean onlyAvailable,
                                            String sortType,
                                            Integer from,
-                                           Integer size) throws EventNotFoundException {
+                                           Integer size, HttpServletRequest request) throws EventNotFoundException {
         Sort sort = "EVENT_DATE".equals(sortType) ?
                 Sort.sort(Event.class).by(Event::getEventDate).ascending() :
                 Sort.sort(Event.class).by(Event::getViews).descending();
@@ -84,6 +84,22 @@ public class EventsServiceImpl implements EventsService {
         if (events.size() == 0) {
             throw new EventNotFoundException("Not found any events for your parameters.");
         }
+
+        Thread sendHit = new Thread(
+                () -> {
+                    try {
+                        adminStatsClient.saveHit(new StatInDto(
+                                MainAPI.APP_NAME,
+                                request.getRequestURI(),
+                                request.getRemoteAddr(),
+                                LocalDateTime.now()
+                        ));
+                        log.info(">>Hit search send - OK.");
+                    } catch (Exception err) {
+                        log.info(">>Hit search send. Error: " + err.getMessage());
+                    }
+                });
+        sendHit.start();
 
         return EventMapper.eventToListOutDto(events);
     }

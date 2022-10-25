@@ -33,7 +33,8 @@ public class PublicEventsController {
             @PositiveOrZero
             @RequestParam(name = "from", defaultValue = "0") Integer from,
             @Positive
-            @RequestParam(name = "size", defaultValue = Constants.PAGE_SIZE_STRING) Integer size)
+            @RequestParam(name = "size", defaultValue = Constants.PAGE_SIZE_STRING) Integer size,
+            HttpServletRequest request)
             throws EventNotFoundException {
 
         return eventsService.findAllEvents(
@@ -45,7 +46,8 @@ public class PublicEventsController {
                 onlyAvailable,
                 sort,
                 from,
-                size
+                size,
+                request
         );
     }
 

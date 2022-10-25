@@ -1,4 +1,4 @@
-package ru.practicum.ewm.client;
+package ru.practicum.ewm.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

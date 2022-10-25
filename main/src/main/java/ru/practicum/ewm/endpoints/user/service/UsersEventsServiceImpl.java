@@ -7,7 +7,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.Constants;
-import ru.practicum.ewm.Utils;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
 import ru.practicum.ewm.exception.EventClosedException;
 import ru.practicum.ewm.exception.EventNotFoundException;
@@ -20,6 +19,7 @@ import ru.practicum.ewm.model.dto.events.EventOutDto;
 import ru.practicum.ewm.repository.CategoriesRepository;
 import ru.practicum.ewm.repository.EventsRepository;
 import ru.practicum.ewm.repository.UsersRepository;
+import ru.practicum.ewm.utils.Utils;
 
 import java.security.InvalidParameterException;
 import java.util.List;

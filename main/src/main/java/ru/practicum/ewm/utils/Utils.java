@@ -1,4 +1,4 @@
-package ru.practicum.ewm;
+package ru.practicum.ewm.utils;
 
 import ru.practicum.ewm.exception.CategoryNotFoundException;
 import ru.practicum.ewm.model.Event;
