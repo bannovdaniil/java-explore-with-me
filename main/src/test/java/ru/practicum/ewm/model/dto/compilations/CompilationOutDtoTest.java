@@ -1,10 +1,9 @@
-package ru.practicum.ewm.dto.compilations;
+package ru.practicum.ewm.model.dto.compilations;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
-import ru.practicum.ewm.model.dto.compilations.CompilationOutDto;
 
 import java.util.ArrayList;
 
