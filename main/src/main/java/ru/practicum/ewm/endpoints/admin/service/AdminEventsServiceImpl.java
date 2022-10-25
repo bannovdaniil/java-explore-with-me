@@ -43,7 +43,7 @@ public class AdminEventsServiceImpl implements AdminEventsService {
 
         Sort sort = Sort.sort(Event.class).by(Event::getEventDate).descending();
         Pageable pageable = PageRequest.of(from / size, size, sort);
-        List<Event> eventList = eventsRepository.findAllByUsersAndStatesAndCetegories(users, stateList, categories, startDate, endDate, pageable);
+        List<Event> eventList = eventsRepository.findAllByUsersAndStatesAndCategories(users, stateList, categories, startDate, endDate, pageable);
         return EventMapper.eventToListOutDto(eventList);
     }
 

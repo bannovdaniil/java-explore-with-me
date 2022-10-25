@@ -31,8 +31,4 @@ public class StatInDto {
         this.ip = ip;
         this.timestamp = LocalDateTime.parse(timestamp, Constants.DATE_TIME_SPACE);
     }
-
-    public void setTimestamp(String timestamp) {
-        this.timestamp = LocalDateTime.parse(timestamp, Constants.DATE_TIME_SPACE);
-    }
 }

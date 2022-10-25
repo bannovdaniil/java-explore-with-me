@@ -21,13 +21,11 @@ public interface EventsRepository extends JpaRepository<Event, Long> {
             " AND e.category.id IN :categories " +
             " AND e.eventDate BETWEEN :startDate AND :endDate "
     )
-    List<Event> findAllByUsersAndStatesAndCetegories(Long[] users, List<EventState> states, Long[] categories, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+    List<Event> findAllByUsersAndStatesAndCategories(Long[] users, List<EventState> states, Long[] categories, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
 
     Boolean existsByCategoryId(Long catId);
 
     Boolean existsByIdAndState(Long eventId, EventState eventState);
-
-    Boolean existsByInitiatorId(Long userId);
 
     Optional<Event> findByIdAndState(Long eventId, EventState published);
 

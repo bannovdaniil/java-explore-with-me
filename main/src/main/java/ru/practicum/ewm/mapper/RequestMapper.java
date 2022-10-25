@@ -20,10 +20,10 @@ public class RequestMapper {
     }
 
     public static List<RequestOutDto> requestsToListOutDto(List<Request> requests) {
-        List<RequestOutDto> requestOutDtos = new ArrayList<>();
+        List<RequestOutDto> requestOutDtoList = new ArrayList<>();
         for (Request request : requests) {
-            requestOutDtos.add(requestToOutDto(request));
+            requestOutDtoList.add(requestToOutDto(request));
         }
-        return requestOutDtos;
+        return requestOutDtoList;
     }
 }

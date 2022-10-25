@@ -32,13 +32,13 @@ CREATE TABLE IF NOT EXISTS events
 (
     id                 BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     annotation         TEXT
-        CONSTRAINT anotationlng CHECK (char_length(annotation) >= 20 AND char_length(annotation) <= 2000),
+        CONSTRAINT annotation_length CHECK (char_length(annotation) >= 20 AND char_length(annotation) <= 2000),
     category_id        BIGINT NOT NULL
         CONSTRAINT events_categories_fkey REFERENCES categories,
     confirmed_requests INTEGER,
     created_on         TIMESTAMP,
     description        TEXT,
-    CONSTRAINT descriptionlng CHECK (char_length(description) >= 20 AND char_length(description) <= 7000),
+    CONSTRAINT description_length CHECK (char_length(description) >= 20 AND char_length(description) <= 7000),
     event_date         TIMESTAMP,
     initiator_id       BIGINT NOT NULL
         CONSTRAINT events_users_fkey REFERENCES users,
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS events
     request_moderation BOOLEAN DEFAULT true,
     state              VARCHAR(15),
     title              VARCHAR(120)
-        CONSTRAINT titlelng CHECK (char_length(title) >= 3),
+        CONSTRAINT title_length CHECK (char_length(title) >= 3),
     views              BIGINT  DEFAULT 0
 );
 

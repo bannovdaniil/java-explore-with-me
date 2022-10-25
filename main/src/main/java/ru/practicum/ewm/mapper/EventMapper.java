@@ -45,10 +45,10 @@ public class EventMapper {
     }
 
     public static List<EventOutDto> eventToListOutDto(List<Event> listEvents) {
-        List<EventOutDto> eventOutDtos = new ArrayList<>();
+        List<EventOutDto> eventOutDtoList = new ArrayList<>();
         for (Event event : listEvents) {
-            eventOutDtos.add(eventToOutDto(event));
+            eventOutDtoList.add(eventToOutDto(event));
         }
-        return eventOutDtos;
+        return eventOutDtoList;
     }
 }

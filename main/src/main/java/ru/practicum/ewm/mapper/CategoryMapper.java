@@ -29,10 +29,10 @@ public class CategoryMapper {
     }
 
     public static List<CategoryFullDto> categoryToListDtoOut(List<Category> listCategories) {
-        List<CategoryFullDto> categoryFullDtos = new ArrayList<>();
+        List<CategoryFullDto> categoryFullDtoList = new ArrayList<>();
         for (Category category : listCategories) {
-            categoryFullDtos.add(categoryToDtoOut(category));
+            categoryFullDtoList.add(categoryToDtoOut(category));
         }
-        return categoryFullDtos;
+        return categoryFullDtoList;
     }
 }

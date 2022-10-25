@@ -47,8 +47,4 @@ public class EventInDto {
         this.participantLimit = participantLimit;
         this.requestModeration = requestModeration;
     }
-
-    public void setEventDate(String eventDate) {
-        this.eventDate = LocalDateTime.parse(eventDate, Constants.DATE_TIME_SPACE);
-    }
 }

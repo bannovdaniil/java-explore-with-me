@@ -28,10 +28,10 @@ public class CompilationMapper {
     }
 
     public static List<CompilationOutDto> compilationToListOutDto(List<Compilation> compilationList) {
-        List<CompilationOutDto> compilationOutDtos = new ArrayList<>();
+        List<CompilationOutDto> compilationOutDtoList = new ArrayList<>();
         for (Compilation compilation : compilationList) {
-            compilationOutDtos.add(compilationToOutDto(compilation));
+            compilationOutDtoList.add(compilationToOutDto(compilation));
         }
-        return compilationOutDtos;
+        return compilationOutDtoList;
     }
 }
