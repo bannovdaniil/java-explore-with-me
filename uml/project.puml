@@ -1,0 +1,96 @@
+@startuml
+scale 1000 width
+left to right direction
+skinparam actorStyle awesome
+skinparam storageStyle rectangle
+skinparam cloudFontSize 24
+
+actor User #skyblue
+
+cloud Gateway #line:blue {
+ agent "Login User API" as Login
+}
+
+User -> Login #line:blue;
+
+cloud "Main service API" as Main #line:green {
+
+actor "Login User" as loginUser #lightgreen
+actor Admin #pink
+
+node Controller as MainController {
+agent "Public" as PublicArea #skyblue
+agent "Private" as PrivateArea #lightgreen
+agent "Admin" as AdminArea #pink
+}
+
+User <--> PublicArea #line:blue;
+
+loginUser <--> PublicArea #line:green;
+loginUser <--> PrivateArea #line:green;
+
+Admin <--> PublicArea #line:red;
+Admin <--> PrivateArea #line:red;
+Admin <--> AdminArea #line:red;
+
+node Service {
+agent "Public" as SrvPublicArea
+agent "Private" as SrvPrivateArea
+agent "Admin" as SrvAdminArea
+}
+
+PublicArea <--> SrvPublicArea
+PrivateArea <--> SrvPrivateArea
+AdminArea <--> SrvAdminArea
+
+node Repository {
+agent "Public" as RepoPublicArea
+agent "Private" as RepoPrivateArea
+agent "Admin" as RepoAdminArea
+}
+
+SrvPublicArea <--> RepoPublicArea
+SrvPrivateArea <--> RepoPrivateArea
+SrvAdminArea <--> RepoAdminArea
+
+database "Data Base" {
+ agent "Main DB" as DB
+}
+
+RepoPublicArea <--> DB
+RepoPrivateArea <--> DB
+RepoAdminArea <--> DB
+
+}
+
+cloud "Stat service API" as Stats #line:red; {
+ node Controller as StatsController {
+    agent "Get Stats" as GetStatsArea
+    agent "Save Stats" as SaveStatsArea
+ }
+
+ node Service as StatsService {
+  agent "Service" as SrvViewArea
+ }
+
+ GetStatsArea <--> SrvViewArea
+ SaveStatsArea <--> SrvViewArea
+
+ node Repository as StatsRepository {
+  agent "Repository" as RepoViewArea
+ }
+
+ SrvViewArea <--> RepoViewArea
+
+database "Data Base" as StatsDB {
+ agent "Stats DB" as nameStatsDB
+ 
+}
+ RepoViewArea <--> nameStatsDB
+}
+
+Admin <--> StatsController #line:red;line.bold;
+Login --> loginUser
+Login --> Admin
+
+@enduml
