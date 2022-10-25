@@ -8,6 +8,7 @@ import ru.practicum.ewm.endpoints.pub.service.EventsService;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.model.dto.events.EventOutDto;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
@@ -49,7 +50,7 @@ public class PublicEventsController {
     }
 
     @GetMapping("{eventId}")
-    public EventOutDto findCategoryById(@Positive @PathVariable Long eventId) throws EventNotFoundException {
-        return eventsService.findEventById(eventId);
+    public EventOutDto findCategoryById(@Positive @PathVariable Long eventId, HttpServletRequest request) throws EventNotFoundException {
+        return eventsService.findEventById(eventId, request);
     }
 }

@@ -1,11 +1,15 @@
 package ru.practicum.ewm.endpoints.pub.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.Constants;
+import ru.practicum.ewm.MainAPI;
+import ru.practicum.ewm.client.AdminStatsClient;
+import ru.practicum.ewm.dto.stats.StatInDto;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.model.Event;
@@ -13,25 +17,41 @@ import ru.practicum.ewm.model.EventState;
 import ru.practicum.ewm.model.dto.events.EventOutDto;
 import ru.practicum.ewm.repository.EventsRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EventsServiceImpl implements EventsService {
     private final EventsRepository eventsRepository;
+    private final AdminStatsClient adminStatsClient;
 
     @Override
-    public EventOutDto findEventById(Long eventId) throws EventNotFoundException {
+    public EventOutDto findEventById(Long eventId, HttpServletRequest request) throws EventNotFoundException {
         if (!eventsRepository.existsByIdAndState(eventId, EventState.PUBLISHED)) {
             throw new EventNotFoundException("Event not found.");
         }
-        //TODO Save to stats Service!
-        eventsRepository.incrementViews(eventId);
         Event event = eventsRepository.findByIdAndState(eventId, EventState.PUBLISHED).orElseThrow(
                 () -> new EventNotFoundException("Event not found.")
         );
+        eventsRepository.incrementViews(eventId);
 
+        log.info("Send Stats: {}.", request);
+        Thread sendStatistic = new Thread(
+                () -> {
+                    adminStatsClient.saveHit(new StatInDto(
+                            MainAPI.APP_NAME,
+                            request.getRequestURI(),
+                            request.getRemoteAddr(),
+                            LocalDateTime.now()
+                    ));
+                }
+        );
+        log.info("Start thread.");
+        sendStatistic.start();
+        log.info("End send.");
         return EventMapper.eventToOutDto(event);
     }
 
