@@ -1,6 +1,6 @@
 # Java Explore With Me
 
-### https://github.com/bannovdaniil/java-explore-with-me/pull/1
+### [https://github.com/bannovdaniil/java-explore-with-me/pull/1](https://github.com/bannovdaniil/java-explore-with-me/pull/1)
 
 В рамках дипломного проекта разработано приложение ExploreWithMe (англ. «исследуй со мной»). Оно предоставляет
 возможность
