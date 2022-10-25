@@ -30,6 +30,6 @@ public class AdminStatsClient extends BaseClient {
     }
 
     public void saveHit(StatInDto statInDto) {
-        post("", statInDto);
+        post("/hit", statInDto);
     }
 }

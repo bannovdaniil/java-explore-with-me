@@ -1,6 +1,8 @@
 package ru.practicum.ewm.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,5 +56,11 @@ public class StatsServiceImpl implements StatsService {
             }
         }
         return stats;
+    }
+
+    @Override
+    public List<Stat> getAllHits(Integer from, Integer size) {
+        Pageable pageable = PageRequest.of(from / size, size);
+        return statsRepository.findAll(pageable).toList();
     }
 }

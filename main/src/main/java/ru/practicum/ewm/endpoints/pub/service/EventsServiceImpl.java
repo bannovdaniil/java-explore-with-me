@@ -38,20 +38,21 @@ public class EventsServiceImpl implements EventsService {
         );
         eventsRepository.incrementViews(eventId);
 
-        log.info("Send Stats: {}.", request);
-        Thread sendStatistic = new Thread(
+        Thread sendHit = new Thread(
                 () -> {
-                    adminStatsClient.saveHit(new StatInDto(
-                            MainAPI.APP_NAME,
-                            request.getRequestURI(),
-                            request.getRemoteAddr(),
-                            LocalDateTime.now()
-                    ));
-                }
-        );
-        log.info("Start thread.");
-        sendStatistic.start();
-        log.info("End send.");
+                    try {
+                        adminStatsClient.saveHit(new StatInDto(
+                                MainAPI.APP_NAME,
+                                request.getRequestURI(),
+                                request.getRemoteAddr(),
+                                LocalDateTime.now()
+                        ));
+                        log.info(">>Hit send - OK.");
+                    } catch (Exception err) {
+                        log.info(">>Hit send. Error: " + err.getMessage());
+                    }
+                });
+        sendHit.start();
         return EventMapper.eventToOutDto(event);
     }
 
