@@ -6,10 +6,10 @@
 
 # java-explore-with-me
 
-![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/bannovdaniil/java-explore-with-me/main/uml/project.puml)
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/bannovdaniil/java-explore-with-me/develop/uml/project.puml)
 
 Template repository for ExploreWithMe project.
 
-![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/bannovdaniil/java-explore-with-me/main/uml/db-ewm.puml)
+![Class Diagram](http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/bannovdaniil/java-explore-with-me/develop/uml/db-ewm.puml)
 
-![](.\uml\db-ewm-image.png)
+![](https://raw.githubusercontent.com/bannovdaniil/java-explore-with-me/develop/uml/db-ewm-image.png)

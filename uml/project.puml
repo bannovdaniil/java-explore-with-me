@@ -13,7 +13,7 @@ cloud Gateway #line:blue {
 
 User -> Login #line:blue;
 
-cloud "Main service API" as Main #line:green {
+cloud "Main service API port: 8080" as Main #line:green {
 
 actor "Login User" as loginUser #lightgreen
 actor Admin #pink
@@ -43,27 +43,29 @@ PublicArea <--> SrvPublicArea
 PrivateArea <--> SrvPrivateArea
 AdminArea <--> SrvAdminArea
 
-node Repository {
-agent "Public" as RepoPublicArea
-agent "Private" as RepoPrivateArea
-agent "Admin" as RepoAdminArea
+node "Jpa Repository" as repoArea {
+card "Users" as RepoUserArea
+card "Events" as RepoEventArea
+card "Requests" as RepoRequestArea
+card "Events" as RepoEventArea
+card "Categories" as RepoCategoryArea
+card "Locations" as RepoLocationArea
+card "Compilations" as RepoCompilationsArea
 }
 
-SrvPublicArea <--> RepoPublicArea
-SrvPrivateArea <--> RepoPrivateArea
-SrvAdminArea <--> RepoAdminArea
+SrvPublicArea <--> repoArea
+SrvPrivateArea <--> repoArea
+SrvAdminArea <--> repoArea
 
 database "Data Base" {
  agent "Main DB" as DB
 }
 
-RepoPublicArea <--> DB
-RepoPrivateArea <--> DB
-RepoAdminArea <--> DB
+repoArea <--> DB
 
 }
 
-cloud "Stat service API" as Stats #line:red; {
+cloud "Stat service API : 9090" as Stats #line:red; {
  node Controller as StatsController {
     agent "Get Stats" as GetStatsArea
     agent "Save Stats" as SaveStatsArea
@@ -74,7 +76,7 @@ cloud "Stat service API" as Stats #line:red; {
  }
 
  GetStatsArea <--> SrvViewArea
- SaveStatsArea <--> SrvViewArea
+ SaveStatsArea --> SrvViewArea
 
  node Repository as StatsRepository {
   agent "Repository" as RepoViewArea
@@ -84,12 +86,15 @@ cloud "Stat service API" as Stats #line:red; {
 
 database "Data Base" as StatsDB {
  agent "Stats DB" as nameStatsDB
- 
+
 }
  RepoViewArea <--> nameStatsDB
 }
 
-Admin <--> StatsController #line:red;line.bold;
+Admin <--> GetStatsArea #line:red;line.bold;
+
+SaveStatsArea <-- SrvPublicArea
+
 Login --> loginUser
 Login --> Admin
 
