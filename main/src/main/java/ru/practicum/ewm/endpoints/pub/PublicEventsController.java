@@ -1,6 +1,7 @@
 package ru.practicum.ewm.endpoints.pub;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequestMapping("/events")
 @RequiredArgsConstructor
 @Validated
+@Slf4j
 public class PublicEventsController {
 
     private final EventsService eventsService;
@@ -36,7 +38,8 @@ public class PublicEventsController {
             @RequestParam(name = "size", defaultValue = Constants.PAGE_SIZE_STRING) Integer size,
             HttpServletRequest request)
             throws EventNotFoundException {
-
+        log.info("Public findAllEvents: {},{},{},{},{},{},{},{},{},{}",
+                text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request);
         return eventsService.findAllEvents(
                 text,
                 categories,
@@ -52,7 +55,8 @@ public class PublicEventsController {
     }
 
     @GetMapping("{eventId}")
-    public EventOutDto findCategoryById(@Positive @PathVariable Long eventId, HttpServletRequest request) throws EventNotFoundException {
+    public EventOutDto findEventById(@Positive @PathVariable Long eventId, HttpServletRequest request) throws EventNotFoundException {
+        log.info("Public findEventById: {},{}", eventId, request);
         return eventsService.findEventById(eventId, request);
     }
 }

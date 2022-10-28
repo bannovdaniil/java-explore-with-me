@@ -1,5 +1,6 @@
 package ru.practicum.ewm;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -35,6 +36,7 @@ import java.security.InvalidParameterException;
                 PublicCompilationsController.class,
                 PublicEventsController.class
         })
+@Slf4j
 public class ErrorHandler {
     private ErrorResponse errorResponse;
 
@@ -47,6 +49,7 @@ public class ErrorHandler {
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFound(final Exception e) {
+        log.info("Error handleNotFound: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
@@ -56,6 +59,7 @@ public class ErrorHandler {
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBadRequest(final Exception e) {
+        log.info("Error handleBadRequest: {}", e.getMessage());
         return new ErrorResponse("Ошибка валидации данных: " + e.getMessage());
     }
 
@@ -66,6 +70,7 @@ public class ErrorHandler {
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleArgumentBadRequest(final Exception e) {
+        log.info("Error handleArgumentBadRequest: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
@@ -75,6 +80,7 @@ public class ErrorHandler {
     })
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleDoubleData(final Exception e) {
+        log.info("Error handleDoubleData: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
@@ -83,12 +89,14 @@ public class ErrorHandler {
     })
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ErrorResponse handleForbidden(final Exception e) {
+        log.info("Error handleForbidden: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleAllError(final Throwable e) {
+        log.info("Error handleAllError: {}", e.getMessage());
         return new ErrorResponse("Произошла непредвиденная ошибка. " + e.getMessage());
     }
 

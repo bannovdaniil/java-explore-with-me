@@ -1,6 +1,7 @@
 package ru.practicum.ewm.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
@@ -18,11 +19,13 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Validated
+@Slf4j
 public class StatsController {
     private final StatsService statsService;
 
     @PostMapping("/hit")
     public void saveHit(@Valid @RequestBody StatInDto statInDto) {
+        log.info("Stats saveHit: {}", statInDto);
         statsService.saveHit(statInDto);
     }
 
@@ -32,6 +35,7 @@ public class StatsController {
                                     @Valid
                                     @RequestParam(name = "uris", defaultValue = "", required = false) List<String> uris,
                                     @RequestParam(name = "unique", defaultValue = "false") Boolean unique) {
+        log.info("Stats getHits: {},{},{},{}", start, end, uris, unique);
         return statsService.getHits(start, end, uris, unique);
     }
 
@@ -40,6 +44,7 @@ public class StatsController {
                                  @RequestParam(name = "from", defaultValue = "0") Integer from,
                                  @Positive
                                  @RequestParam(name = "size", defaultValue = Constants.PAGE_SIZE_STRING) Integer size) {
+        log.info("Stats getAllHits: {},{}", from, size);
         return statsService.getAllHits(from, size);
     }
 

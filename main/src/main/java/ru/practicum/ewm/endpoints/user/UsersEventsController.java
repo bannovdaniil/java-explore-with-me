@@ -1,6 +1,7 @@
 package ru.practicum.ewm.endpoints.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
@@ -21,12 +22,14 @@ import java.util.List;
 @RequestMapping("/users/{userId}/events")
 @RequiredArgsConstructor
 @Validated
+@Slf4j
 public class UsersEventsController {
     private final UsersEventsService usersEventsService;
 
     @PostMapping
     public EventOutDto addEvent(@Positive @PathVariable Long userId, @Valid @RequestBody EventInDto eventInDto)
             throws CategoryNotFoundException, UserNotFoundException {
+        log.info("User addEvent: {},{}", userId, eventInDto);
         return usersEventsService.addEvent(userId, eventInDto);
     }
 
@@ -37,6 +40,7 @@ public class UsersEventsController {
             UserNotFoundException,
             EventNotFoundException,
             EventClosedException {
+        log.info("User updateEvent: {},{}", userId, eventInDto);
         return usersEventsService.updateEvent(userId, eventInDto);
     }
 
@@ -47,6 +51,7 @@ public class UsersEventsController {
                                            @Positive
                                            @RequestParam(name = "size", defaultValue = Constants.PAGE_SIZE_STRING) Integer size)
             throws UserNotFoundException {
+        log.info("User findAllEvents: {},{},{}", userId, from, size);
         return usersEventsService.findAllEvents(userId, from, size);
     }
 
@@ -54,6 +59,7 @@ public class UsersEventsController {
     public EventOutDto getEvent(@Positive @PathVariable Long userId,
                                 @Positive @PathVariable Long eventId)
             throws UserNotFoundException, EventNotFoundException {
+        log.info("User getEvent: {},{}", userId, eventId);
         return usersEventsService.getEvent(userId, eventId);
     }
 
@@ -61,6 +67,7 @@ public class UsersEventsController {
     public EventOutDto cancelEvent(@Positive @PathVariable Long userId,
                                    @Positive @PathVariable Long eventId)
             throws UserNotFoundException, EventNotFoundException, EventClosedException {
+        log.info("User cancelEvent: {},{}", userId, eventId);
         return usersEventsService.cancelEvent(userId, eventId);
     }
 }
