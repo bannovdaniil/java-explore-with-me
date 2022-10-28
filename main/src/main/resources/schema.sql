@@ -36,17 +36,17 @@ CREATE TABLE IF NOT EXISTS events
     category_id        BIGINT NOT NULL
         CONSTRAINT events_categories_fkey REFERENCES categories,
     confirmed_requests INTEGER,
-    created_on         TIMESTAMP,
+    created_on         TIMESTAMP WITHOUT TIME ZONE,
     description        TEXT,
     CONSTRAINT description_length CHECK (char_length(description) >= 20 AND char_length(description) <= 7000),
-    event_date         TIMESTAMP,
+    event_date         TIMESTAMP WITHOUT TIME ZONE,
     initiator_id       BIGINT NOT NULL
         CONSTRAINT events_users_fkey REFERENCES users,
     location_id        BIGINT NOT NULL
         CONSTRAINT events_locations_fkey REFERENCES locations,
     paid               BOOLEAN default false,
     participant_limit  INTEGER DEFAULT 0,
-    published_on       TIMESTAMP,
+    published_on       TIMESTAMP WITHOUT TIME ZONE,
     request_moderation BOOLEAN DEFAULT true,
     state              VARCHAR(15),
     title              VARCHAR(120)
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS requests
 (
     id           BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     requester_id BIGINT REFERENCES users (id),
-    created      TIMESTAMP,
+    created      TIMESTAMP WITHOUT TIME ZONE,
     status       VARCHAR(15),
     event_id     BIGINT REFERENCES events (id),
     UNIQUE (event_id, requester_id)
