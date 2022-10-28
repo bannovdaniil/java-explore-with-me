@@ -1,7 +1,7 @@
 package ru.practicum.ewm.endpoints.pub.service;
 
+import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.exception.EventNotFoundException;
-import ru.practicum.ewm.model.dto.events.EventOutDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;

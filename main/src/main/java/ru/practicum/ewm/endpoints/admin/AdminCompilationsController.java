@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ewm.dto.compilations.CompilationInDto;
+import ru.practicum.ewm.dto.compilations.CompilationOutDto;
 import ru.practicum.ewm.endpoints.admin.service.AdminCompilationsService;
 import ru.practicum.ewm.exception.CompilationNotFoundException;
 import ru.practicum.ewm.exception.EventNotFoundException;
-import ru.practicum.ewm.model.dto.compilations.CompilationInDto;
-import ru.practicum.ewm.model.dto.compilations.CompilationOutDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;

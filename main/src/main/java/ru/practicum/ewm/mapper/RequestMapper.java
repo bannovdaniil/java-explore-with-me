@@ -1,7 +1,7 @@
 package ru.practicum.ewm.mapper;
 
+import ru.practicum.ewm.dto.requests.RequestOutDto;
 import ru.practicum.ewm.model.Request;
-import ru.practicum.ewm.model.dto.requests.RequestOutDto;
 
 import java.util.ArrayList;
 import java.util.List;

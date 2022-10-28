@@ -1,7 +1,7 @@
 package ru.practicum.ewm.endpoints.admin.service;
 
+import ru.practicum.ewm.dto.users.UserDto;
 import ru.practicum.ewm.exception.UserNotFoundException;
-import ru.practicum.ewm.model.dto.users.UserDto;
 
 import java.util.List;
 

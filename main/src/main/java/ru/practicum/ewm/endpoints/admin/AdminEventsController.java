@@ -5,13 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
+import ru.practicum.ewm.dto.events.EventInDto;
+import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.endpoints.admin.service.AdminEventsService;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
 import ru.practicum.ewm.exception.EventClosedException;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
-import ru.practicum.ewm.model.dto.events.EventInDto;
-import ru.practicum.ewm.model.dto.events.EventOutDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;

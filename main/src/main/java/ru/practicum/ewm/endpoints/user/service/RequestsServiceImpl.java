@@ -2,12 +2,12 @@ package ru.practicum.ewm.endpoints.user.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.practicum.ewm.dto.requests.RequestOutDto;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
 import ru.practicum.ewm.exception.UserRequestHimselfException;
 import ru.practicum.ewm.mapper.RequestMapper;
 import ru.practicum.ewm.model.*;
-import ru.practicum.ewm.model.dto.requests.RequestOutDto;
 import ru.practicum.ewm.repository.EventsRepository;
 import ru.practicum.ewm.repository.RequestsRepository;
 import ru.practicum.ewm.repository.UsersRepository;

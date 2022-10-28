@@ -1,10 +1,10 @@
-package ru.practicum.ewm.model.dto.compilations;
+package ru.practicum.ewm.dto.compilations;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.practicum.ewm.model.dto.events.EventOutDto;
+import ru.practicum.ewm.dto.events.EventOutDto;
 
 import java.util.List;
 

@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ewm.dto.categories.CategoryFullDto;
+import ru.practicum.ewm.dto.categories.CategoryInDto;
 import ru.practicum.ewm.endpoints.admin.service.AdminCategoriesService;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
-import ru.practicum.ewm.model.dto.categories.CategoryFullDto;
-import ru.practicum.ewm.model.dto.categories.CategoryInDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;

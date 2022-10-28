@@ -5,10 +5,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ru.practicum.ewm.dto.categories.CategoryFullDto;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
 import ru.practicum.ewm.mapper.CategoryMapper;
 import ru.practicum.ewm.model.Category;
-import ru.practicum.ewm.model.dto.categories.CategoryFullDto;
 import ru.practicum.ewm.repository.CategoriesRepository;
 
 import java.util.List;

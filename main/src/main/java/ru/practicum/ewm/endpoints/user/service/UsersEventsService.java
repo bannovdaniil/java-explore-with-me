@@ -1,11 +1,11 @@
 package ru.practicum.ewm.endpoints.user.service;
 
+import ru.practicum.ewm.dto.events.EventInDto;
+import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.exception.CategoryNotFoundException;
 import ru.practicum.ewm.exception.EventClosedException;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
-import ru.practicum.ewm.model.dto.events.EventInDto;
-import ru.practicum.ewm.model.dto.events.EventOutDto;
 
 import java.util.List;
 

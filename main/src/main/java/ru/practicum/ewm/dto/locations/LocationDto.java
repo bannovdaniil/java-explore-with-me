@@ -1,4 +1,4 @@
-package ru.practicum.ewm.model.dto.locations;
+package ru.practicum.ewm.dto.locations;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

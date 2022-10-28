@@ -1,4 +1,4 @@
-package ru.practicum.ewm.model.dto.events;
+package ru.practicum.ewm.dto.events;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.practicum.ewm.Constants;
-import ru.practicum.ewm.model.dto.locations.LocationDto;
+import ru.practicum.ewm.dto.locations.LocationDto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;

@@ -1,8 +1,8 @@
 package ru.practicum.ewm.mapper;
 
+import ru.practicum.ewm.dto.categories.CategoryFullDto;
+import ru.practicum.ewm.dto.categories.CategoryInDto;
 import ru.practicum.ewm.model.Category;
-import ru.practicum.ewm.model.dto.categories.CategoryFullDto;
-import ru.practicum.ewm.model.dto.categories.CategoryInDto;
 
 import java.util.ArrayList;
 import java.util.List;

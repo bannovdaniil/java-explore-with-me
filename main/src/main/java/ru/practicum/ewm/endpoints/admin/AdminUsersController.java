@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
+import ru.practicum.ewm.dto.users.UserDto;
 import ru.practicum.ewm.endpoints.admin.service.AdminUsersService;
 import ru.practicum.ewm.exception.UserNotFoundException;
-import ru.practicum.ewm.model.dto.users.UserDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;

@@ -1,9 +1,9 @@
 package ru.practicum.ewm.endpoints.user.service;
 
+import ru.practicum.ewm.dto.requests.RequestOutDto;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.exception.UserNotFoundException;
 import ru.practicum.ewm.exception.UserRequestHimselfException;
-import ru.practicum.ewm.model.dto.requests.RequestOutDto;
 
 import java.util.List;
 

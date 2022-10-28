@@ -1,4 +1,4 @@
-package ru.practicum.ewm.model.dto.categories;
+package ru.practicum.ewm.dto.categories;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,12 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class CategoryInDto {
+@NoArgsConstructor
+public class CategoryFullDto {
+    @Positive
+    private Long id;
     @NotBlank
     private String name;
 }

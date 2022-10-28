@@ -8,12 +8,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.MainAPI;
+import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.dto.stats.StatInDto;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.model.Event;
 import ru.practicum.ewm.model.EventState;
-import ru.practicum.ewm.model.dto.events.EventOutDto;
 import ru.practicum.ewm.repository.EventsRepository;
 import ru.practicum.ewm.utils.AdminStatsClient;
 
