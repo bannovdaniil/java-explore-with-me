@@ -1,5 +1,3 @@
-Pull request: https://github.com/bannovdaniil/java-explore-with-me/pull/1
-
 # _REST API для проекта "Explore With Me"_
 
 ### _Язык реализации Java_
