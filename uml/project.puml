@@ -1,0 +1,101 @@
+@startuml
+scale 1000 width
+left to right direction
+skinparam actorStyle awesome
+skinparam storageStyle rectangle
+skinparam cloudFontSize 24
+
+actor User #skyblue
+
+cloud Gateway #line:blue {
+ agent "Login User API" as Login
+}
+
+User -> Login #line:blue;
+
+cloud "Main service API port: 8080" as Main #line:green {
+
+actor "Login User" as loginUser #lightgreen
+actor Admin #pink
+
+node Controller as MainController {
+agent "Public" as PublicArea #skyblue
+agent "Private" as PrivateArea #lightgreen
+agent "Admin" as AdminArea #pink
+}
+
+User <--> PublicArea #line:blue;
+
+loginUser <--> PublicArea #line:green;
+loginUser <--> PrivateArea #line:green;
+
+Admin <--> PublicArea #line:red;
+Admin <--> PrivateArea #line:red;
+Admin <--> AdminArea #line:red;
+
+node Service {
+agent "Public" as SrvPublicArea
+agent "Private" as SrvPrivateArea
+agent "Admin" as SrvAdminArea
+}
+
+PublicArea <--> SrvPublicArea
+PrivateArea <--> SrvPrivateArea
+AdminArea <--> SrvAdminArea
+
+node "Jpa Repository" as repoArea {
+card "Users" as RepoUserArea
+card "Events" as RepoEventArea
+card "Requests" as RepoRequestArea
+card "Events" as RepoEventArea
+card "Categories" as RepoCategoryArea
+card "Locations" as RepoLocationArea
+card "Compilations" as RepoCompilationsArea
+}
+
+SrvPublicArea <--> repoArea
+SrvPrivateArea <--> repoArea
+SrvAdminArea <--> repoArea
+
+database "Data Base" {
+ agent "Main DB" as DB
+}
+
+repoArea <--> DB
+
+}
+
+cloud "Stat service API : 9090" as Stats #line:red; {
+ node Controller as StatsController {
+    agent "Get Stats" as GetStatsArea
+    agent "Save Stats" as SaveStatsArea
+ }
+
+ node Service as StatsService {
+  agent "Service" as SrvViewArea
+ }
+
+ GetStatsArea <--> SrvViewArea
+ SaveStatsArea --> SrvViewArea
+
+ node Repository as StatsRepository {
+  agent "Repository" as RepoViewArea
+ }
+
+ SrvViewArea <--> RepoViewArea
+
+database "Data Base" as StatsDB {
+ agent "Stats DB" as nameStatsDB
+
+}
+ RepoViewArea <--> nameStatsDB
+}
+
+Admin <--> GetStatsArea #line:red;line.bold;
+
+SaveStatsArea <-- SrvPublicArea
+
+Login --> loginUser
+Login --> Admin
+
+@enduml

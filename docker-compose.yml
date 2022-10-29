@@ -1,15 +1,74 @@
-version: '3.1'
+version: '3.8'
 services:
+  # Stats
   stats-server:
+    build: ./stats
+    container_name: stats_server
+    restart: always
     ports:
       - "9090:9090"
+    depends_on:
+      stats-db:
+        condition: service_healthy
+    environment:
+      - WAIT_HOSTS=stats-db:5432
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats
+      - POSTGRES_USER=sa
+      - POSTGRES_PASSWORD=password
 
+  # база данных для Stats
   stats-db:
-    image: postgres:14-alpine
-
+    image: postgres:14.5-alpine
+    container_name: stats_db
+    restart: always
+    volumes:
+      - /var/lib/postgresql/data/
+    ports:
+      - "6590:5432"
+    # переменные окружения
+    environment:
+      POSTGRES_DB: stats
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  # Main
   ewm-service:
+    build: ./main
+    container_name: main_server
+    restart: always
     ports:
       - "8080:8080"
+    depends_on:
+      ewm-db:
+        condition: service_healthy
 
+    environment:
+      - WAIT_HOSTS=ewm-db:5432
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm
+      - POSTGRES_USER=sa
+      - POSTGRES_PASSWORD=password
+      - STATS_SERVER_URL=http://stats-server:9090
+
+  # база для MAIn
   ewm-db:
-    image: postgres:14-alpine
+    image: postgres:14.5-alpine
+    container_name: ewm_db
+    restart: always
+    volumes:
+      - /var/lib/postgresql/data/
+    ports:
+      - "6580:5432"
+    # переменные окружения
+    environment:
+      POSTGRES_DB: ewm
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

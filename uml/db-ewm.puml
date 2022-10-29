@@ -1,0 +1,64 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class CATEGORIES {
+   NAME: character varying(200)
+   ID: bigint
+}
+class COMPILATIONS {
+   TITLE: character varying(120)
+   PINNED: boolean
+   ID: bigint
+}
+class COMPILATIONS_EVENTS {
+   EVENT_ID: bigint
+   COMPILATION_ID: bigint
+   ID: bigint
+}
+class EVENTS {
+   ANNOTATION: character large object
+   CATEGORY_ID: bigint
+   CONFIRMED_REQUESTS: integer
+   CREATED_ON: timestamp
+   DESCRIPTION: character large object
+   EVENT_DATE: timestamp
+   INITIATOR_ID: bigint
+   LOCATION_ID: bigint
+   PAID: boolean
+   PARTICIPANT_LIMIT: integer
+   PUBLISHED_ON: timestamp
+   REQUEST_MODERATION: boolean
+   STATE: character varying(15)
+   TITLE: character varying(120)
+   VIEWS: bigint
+   ID: bigint
+}
+class LOCATIONS {
+   LAT: double precision
+   LON: double precision
+   ID: bigint
+}
+class REQUESTS {
+   REQUESTER_ID: bigint
+   CREATED: timestamp
+   STATUS: character varying(15)
+   EVENT_ID: bigint
+   ID: bigint
+}
+class USERS {
+   NAME: character varying(250)
+   EMAIL: character varying(100)
+   ID: bigint
+}
+
+COMPILATIONS_EVENTS  -[#595959,plain]-^  COMPILATIONS        : "COMPILATION_ID:ID"
+COMPILATIONS_EVENTS  -[#595959,plain]-^  EVENTS              : "EVENT_ID:ID"
+EVENTS               -[#595959,plain]-^  CATEGORIES          : "CATEGORY_ID:ID"
+EVENTS               -[#595959,plain]-^  LOCATIONS           : "LOCATION_ID:ID"
+EVENTS               -[#595959,plain]-^  USERS               : "INITIATOR_ID:ID"
+REQUESTS             -[#595959,plain]-^  EVENTS              : "EVENT_ID:ID"
+REQUESTS             -[#595959,plain]-^  USERS               : "REQUESTER_ID:ID"
+@enduml
