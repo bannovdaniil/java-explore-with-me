@@ -45,7 +45,8 @@ public class ErrorHandler {
             EventNotFoundException.class,
             UserNotFoundException.class,
             RequestNotFoundException.class,
-            CompilationNotFoundException.class
+            CompilationNotFoundException.class,
+            LikeNotFoundException.class
     })
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFound(final Exception e) {
@@ -76,7 +77,8 @@ public class ErrorHandler {
 
     @ExceptionHandler({
             DataIntegrityViolationException.class,
-            EventClosedException.class
+            EventClosedException.class,
+            DoubleLikeException.class
     })
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleDoubleData(final Exception e) {

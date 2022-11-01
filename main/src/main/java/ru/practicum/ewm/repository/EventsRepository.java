@@ -55,4 +55,12 @@ public interface EventsRepository extends JpaRepository<Event, Long> {
                                LocalDateTime rangeEnd,
                                Boolean onlyAvailable,
                                Pageable pageable);
+
+
+    int countByInitiatorId(Long userId);
+
+    @Query("SELECT SUM(e.rate) FROM Event e " +
+            " WHERE e.initiator.id = :userId"
+    )
+    long sumRateByInitiatorId(Long userId);
 }

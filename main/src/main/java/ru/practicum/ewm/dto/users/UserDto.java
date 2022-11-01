@@ -16,4 +16,5 @@ public class UserDto {
     private String name;
     @Email
     private String email;
+    private Float rate;
 }

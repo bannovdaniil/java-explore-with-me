@@ -41,6 +41,7 @@ public class EventMapper {
                 .requestModeration(event.getRequestModeration())
                 .state(event.getState())
                 .views(event.getViews())
+                .rate(event.getRate())
                 .build();
     }
 
