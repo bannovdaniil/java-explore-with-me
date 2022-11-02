@@ -1,6 +1,7 @@
 package ru.practicum.ewm.mapper;
 
 import ru.practicum.ewm.dto.users.UserDto;
+import ru.practicum.ewm.dto.users.UserPublicDto;
 import ru.practicum.ewm.model.User;
 
 import java.util.ArrayList;
@@ -28,5 +29,9 @@ public class UserMapper {
             userDtoList.add(userToDto(user));
         }
         return userDtoList;
+    }
+
+    public static UserPublicDto userToPublicDto(User user) {
+        return new UserPublicDto(user.getName());
     }
 }

@@ -2,6 +2,7 @@ package ru.practicum.ewm.mapper;
 
 import ru.practicum.ewm.dto.events.EventInDto;
 import ru.practicum.ewm.dto.events.EventOutDto;
+import ru.practicum.ewm.dto.events.EventPublicOutDto;
 import ru.practicum.ewm.model.Category;
 import ru.practicum.ewm.model.Event;
 
@@ -52,4 +53,36 @@ public class EventMapper {
         }
         return eventOutDtoList;
     }
+
+
+    public static EventPublicOutDto eventToPublicOutDto(Event event) {
+        return EventPublicOutDto.builder()
+                .annotation(event.getAnnotation())
+                .category(CategoryMapper.categoryToDtoOut(event.getCategory()))
+                .initiator(UserMapper.userToPublicDto(event.getInitiator()))
+                .location(LocationMapper.locationToDto(event.getLocation()))
+                .title(event.getTitle())
+                .confirmedRequests(event.getConfirmedRequests())
+                .createdOn(event.getCreatedOn())
+                .description(event.getDescription())
+                .eventDate(event.getEventDate())
+                .id(event.getId())
+                .paid(event.getPaid())
+                .participantLimit(event.getParticipantLimit())
+                .publishedOn(event.getPublishedOn())
+                .requestModeration(event.getRequestModeration())
+                .state(event.getState())
+                .views(event.getViews())
+                .rate(event.getRate())
+                .build();
+    }
+
+    public static List<EventPublicOutDto> eventToPublicListOutDto(List<Event> listEvents) {
+        List<EventPublicOutDto> eventOutDtoList = new ArrayList<>();
+        for (Event event : listEvents) {
+            eventOutDtoList.add(eventToPublicOutDto(event));
+        }
+        return eventOutDtoList;
+    }
+
 }
