@@ -63,6 +63,13 @@
 - При публичном просмотре событий, скрыты данные создателя события.
 - Создатель события не может оценивать событие.
 
+_**Список эндпоинтов для фичи:_**
+
+- Поставить лайк/дизлайк:
+  - PUT ewm-main:8080/users/{userId}/events/{eventId}/like?type={like/dislike}
+- Убрать лайк/дизлайк:
+  - DELETE ewm-main:8080/users/{userId}/events/{eventId}/like?type={like/dislike}
+
 ### _Спецификация REST API swagger_
 
 - [Основной сервис](https://raw.githubusercontent.com/bannovdaniil/java-explore-with-me/develop/ewm-main-service-spec.json)
