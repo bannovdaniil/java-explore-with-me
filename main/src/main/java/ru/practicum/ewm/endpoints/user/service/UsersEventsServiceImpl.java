@@ -132,10 +132,10 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         Event event = eventsRepository.findById(eventId).orElseThrow(
                 () -> new EventNotFoundException("Event ID not found.")
         );
-        if (event.getInitiator().getId() == userId) {
+        if (userId.equals(event.getInitiator().getId())) {
             throw new AccessDeniedException("Запрещено оценивать собственное событие.");
         }
-        log.info("addLike: before event:{}", event);
+        log.info("addLike: before user:{}, event:{}, rate:{}", userId, eventId, event.getRate());
 
         Optional<Like> like = likeRepository.findByEventIdAndUserId(userId, eventId);
         if (like.isPresent()) {
@@ -151,17 +151,18 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         }
         likeRepository.saveAndFlush(new Like(null, userId, eventId, likeType));
         if (likeType == LikeType.LIKE) {
-            event.setRate(event.getRate() + 1);
+            eventsRepository.incrementRate(eventId);
         } else {
-            event.setRate(event.getRate() - 1);
+            eventsRepository.decrementRate(eventId);
         }
-
-        event = eventsRepository.saveAndFlush(event);
 
         User initiator = event.getInitiator();
         initiator.setRate(getRate(initiator.getId()));
         usersRepository.save(initiator);
-        log.info("addLike: update event:{}", event);
+        Optional<Event> optionalEvent = eventsRepository.findById(eventId);
+        if (optionalEvent.isPresent()) {
+            log.info("addLike: update user:{}, event:{}, rate:{}", userId, eventId, optionalEvent.get().getRate());
+        }
     }
 
     @Override
@@ -174,8 +175,7 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         Event event = eventsRepository.findById(eventId).orElseThrow(
                 () -> new EventNotFoundException("Event ID not found.")
         );
-        log.info("removeLike: before event:{}", event);
-        List<Like> all = likeRepository.findAll();
+        log.info("removeLike: before user:{}, event:{}, rate:{}", userId, eventId, event.getRate());
 
         Like like = likeRepository.findByUserIdAndEventIdAndType(userId, eventId, likeType)
                 .orElseThrow(
@@ -184,16 +184,18 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         likeRepository.delete(like);
 
         if (likeType == LikeType.LIKE) {
-            event.setRate(event.getRate() - 1);
+            eventsRepository.decrementRate(eventId);
         } else {
-            event.setRate(event.getRate() + 1);
+            eventsRepository.incrementRate(eventId);
         }
 
         User initiator = event.getInitiator();
         initiator.setRate(getRate(initiator.getId()));
-
-        event = eventsRepository.saveAndFlush(event);
-        log.info("removeLike: update event:{}", event);
+        usersRepository.save(initiator);
+        Optional<Event> optionalEvent = eventsRepository.findById(eventId);
+        if (optionalEvent.isPresent()) {
+            log.info("removeLike: update user:{}, event:{}, rate:{}", userId, eventId, optionalEvent.get().getRate());
+        }
     }
 
     private Float getRate(Long userId) {

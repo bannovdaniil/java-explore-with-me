@@ -86,7 +86,6 @@ public class EventsServiceImpl implements EventsService {
         Pageable pageable = PageRequest.of(from / size, size, sort);
 
         onlyAvailable = true;
-
         List<Event> events = eventsRepository.findAllByParam(
                 text,
                 categories,
