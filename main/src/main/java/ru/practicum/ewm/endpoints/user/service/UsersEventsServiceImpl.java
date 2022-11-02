@@ -1,7 +1,6 @@
 package ru.practicum.ewm.endpoints.user.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,7 +25,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UsersEventsServiceImpl implements UsersEventsService {
     private final EventsRepository eventsRepository;
     private final CategoriesRepository categoriesRepository;
@@ -126,16 +124,8 @@ public class UsersEventsServiceImpl implements UsersEventsService {
     @Transactional
     public void addLike(Long userId, Long eventId, LikeType likeType)
             throws UserNotFoundException, EventNotFoundException, DoubleLikeException, LikeNotFoundException, AccessDeniedException {
-        if (!usersRepository.existsById(userId)) {
-            throw new UserNotFoundException("User ID not found.");
-        }
-        Event event = eventsRepository.findById(eventId).orElseThrow(
-                () -> new EventNotFoundException("Event ID not found.")
-        );
-        if (userId.equals(event.getInitiator().getId())) {
-            throw new AccessDeniedException("Запрещено оценивать собственное событие.");
-        }
-        log.info("addLike: before user:{}, event:{}, rate:{}", userId, eventId, event.getRate());
+        Event event = getEvent(eventId);
+        checkUser(userId, event);
 
         Optional<Like> like = likeRepository.findByEventIdAndUserId(userId, eventId);
         if (like.isPresent()) {
@@ -159,23 +149,14 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         User initiator = event.getInitiator();
         initiator.setRate(getRate(initiator.getId()));
         usersRepository.save(initiator);
-        Optional<Event> optionalEvent = eventsRepository.findById(eventId);
-        if (optionalEvent.isPresent()) {
-            log.info("addLike: update user:{}, event:{}, rate:{}", userId, eventId, optionalEvent.get().getRate());
-        }
     }
 
     @Override
     @Transactional
     public void removeLike(Long userId, Long eventId, LikeType likeType)
-            throws UserNotFoundException, EventNotFoundException, LikeNotFoundException {
-        if (!usersRepository.existsById(userId)) {
-            throw new UserNotFoundException("User ID not found.");
-        }
-        Event event = eventsRepository.findById(eventId).orElseThrow(
-                () -> new EventNotFoundException("Event ID not found.")
-        );
-        log.info("removeLike: before user:{}, event:{}, rate:{}", userId, eventId, event.getRate());
+            throws UserNotFoundException, EventNotFoundException, LikeNotFoundException, AccessDeniedException {
+        Event event = getEvent(eventId);
+        checkUser(userId, event);
 
         Like like = likeRepository.findByUserIdAndEventIdAndType(userId, eventId, likeType)
                 .orElseThrow(
@@ -192,10 +173,6 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         User initiator = event.getInitiator();
         initiator.setRate(getRate(initiator.getId()));
         usersRepository.save(initiator);
-        Optional<Event> optionalEvent = eventsRepository.findById(eventId);
-        if (optionalEvent.isPresent()) {
-            log.info("removeLike: update user:{}, event:{}, rate:{}", userId, eventId, optionalEvent.get().getRate());
-        }
     }
 
     private Float getRate(Long userId) {
@@ -204,4 +181,24 @@ public class UsersEventsServiceImpl implements UsersEventsService {
 
         return 1.0F * rate / count;
     }
+
+    private void checkUser(Long userId, Event event) throws UserNotFoundException, AccessDeniedException {
+        if (!usersRepository.existsById(userId)) {
+            throw new UserNotFoundException("User ID not found.");
+        }
+        if (userId.equals(event.getInitiator().getId())) {
+            throw new AccessDeniedException("Запрещено оценивать собственное событие.");
+        }
+    }
+
+    private Event getEvent(Long eventId) throws EventNotFoundException, AccessDeniedException {
+        Event event = eventsRepository.findById(eventId).orElseThrow(
+                () -> new EventNotFoundException("Event ID not found.")
+        );
+        if (event.getState() != EventState.PUBLISHED) {
+            throw new AccessDeniedException("Можно оценивать только опубликованные события.");
+        }
+        return event;
+    }
+
 }

@@ -21,5 +21,5 @@ public interface UsersEventsService {
 
     void addLike(Long userId, Long eventId, LikeType likeType) throws UserNotFoundException, EventNotFoundException, DoubleLikeException, LikeNotFoundException, AccessDeniedException;
 
-    void removeLike(Long userId, Long eventId, LikeType likeType) throws UserNotFoundException, EventNotFoundException, LikeNotFoundException;
+    void removeLike(Long userId, Long eventId, LikeType likeType) throws UserNotFoundException, EventNotFoundException, LikeNotFoundException, AccessDeniedException;
 }

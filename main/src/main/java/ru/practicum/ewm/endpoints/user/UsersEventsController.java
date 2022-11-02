@@ -90,7 +90,7 @@ public class UsersEventsController {
             @Positive @PathVariable Long userId,
             @Positive @PathVariable Long eventId,
             @RequestParam(name = "type") String type
-    ) throws UserNotFoundException, EventNotFoundException, LikeNotFoundException {
+    ) throws UserNotFoundException, EventNotFoundException, LikeNotFoundException, AccessDeniedException {
         LikeType likeType = LikeType.from(type)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown type: " + type));
         usersEventsService.removeLike(userId, eventId, likeType);
