@@ -12,10 +12,7 @@ import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.exception.*;
 import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.model.*;
-import ru.practicum.ewm.repository.CategoriesRepository;
-import ru.practicum.ewm.repository.EventsRepository;
-import ru.practicum.ewm.repository.LikeRepository;
-import ru.practicum.ewm.repository.UsersRepository;
+import ru.practicum.ewm.repository.*;
 import ru.practicum.ewm.utils.Utils;
 
 import java.nio.file.AccessDeniedException;
@@ -30,6 +27,7 @@ public class UsersEventsServiceImpl implements UsersEventsService {
     private final CategoriesRepository categoriesRepository;
     private final UsersRepository usersRepository;
     private final LikeRepository likeRepository;
+    private final RequestsRepository requestsRepository;
 
     @Override
     @Transactional
@@ -126,6 +124,9 @@ public class UsersEventsServiceImpl implements UsersEventsService {
             throws UserNotFoundException, EventNotFoundException, DoubleLikeException, LikeNotFoundException, AccessDeniedException {
         Event event = getEvent(eventId);
         checkUser(userId, event);
+        if (!requestsRepository.existsByRequesterIdAndEventIdAndStatus(userId, eventId, RequestState.CONFIRMED)) {
+            throw new AccessDeniedException("Запрещено оценивать событие в которых не участвуешь.");
+        }
 
         Optional<Like> like = likeRepository.findByEventIdAndUserId(userId, eventId);
         if (like.isPresent()) {
