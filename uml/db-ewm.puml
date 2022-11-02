@@ -34,6 +34,13 @@ class EVENTS {
    STATE: character varying(15)
    TITLE: character varying(120)
    VIEWS: bigint
+   RATE: integer
+   ID: bigint
+}
+class LIKES {
+   USER_ID: bigint
+   EVENT_ID: bigint
+   TYPE: character varying(7)
    ID: bigint
 }
 class LOCATIONS {
@@ -48,9 +55,17 @@ class REQUESTS {
    EVENT_ID: bigint
    ID: bigint
 }
+class STATS {
+   APP: character varying(30)
+   URI: character varying(250)
+   IP: character varying(50)
+   TIMESTAMP: timestamp
+   ID: bigint
+}
 class USERS {
    NAME: character varying(250)
    EMAIL: character varying(100)
+   RATE: real
    ID: bigint
 }
 
@@ -59,6 +74,8 @@ COMPILATIONS_EVENTS  -[#595959,plain]-^  EVENTS              : "EVENT_ID:ID"
 EVENTS               -[#595959,plain]-^  CATEGORIES          : "CATEGORY_ID:ID"
 EVENTS               -[#595959,plain]-^  LOCATIONS           : "LOCATION_ID:ID"
 EVENTS               -[#595959,plain]-^  USERS               : "INITIATOR_ID:ID"
+LIKES                -[#595959,plain]-^  EVENTS              : "EVENT_ID:ID"
+LIKES                -[#595959,plain]-^  USERS               : "USER_ID:ID"
 REQUESTS             -[#595959,plain]-^  EVENTS              : "EVENT_ID:ID"
 REQUESTS             -[#595959,plain]-^  USERS               : "REQUESTER_ID:ID"
 @enduml

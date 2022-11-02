@@ -13,7 +13,7 @@
 2. mvn clean package
 3. mvn install
 4. docker-compose build
-5. docker-compose up -d --force-recreate
+5. docker-compose up -d
 6. основной сервис доступен по адресу: http://localhost:8080
 7. сервис статистики доступен по адресу: http://localhost:9090
 
@@ -28,6 +28,7 @@
   - События и работа с ними - создание, модерация;
   - Запросы пользователей на участие в событии - запрос, подтверждение, отклонение.
   - Создание и управление подборками.
+  - Добавление и удаление Лайков событиям, формирование рейтингов.
 - Сервис статистики — хранит количество просмотров и позволяет делать различные выборки для анализа работы приложения.
   - Отдельный сервис для сбора статистики;
 
@@ -41,6 +42,7 @@
 - **Приватный** (_доступен только для зарегистрированных пользователей_)
   - API для работы с событиями
   - API для работы с запросами текущего пользователя на участие в событиях
+  - API для работы с рейтингами
 - **Административный** (_доступен только для администратора проекта_)
   - API для работы с событиями
   - API для работы с категориями
@@ -61,6 +63,7 @@
 
 - [Основной сервис](https://raw.githubusercontent.com/bannovdaniil/java-explore-with-me/develop/postman/ewm-main-service.json)
 - [Сервис статистики](https://raw.githubusercontent.com/bannovdaniil/java-explore-with-me/develop/postman/ewm-stat-service.json)
+- [Тест для фичи Рейтинги](https://raw.githubusercontent.com/bannovdaniil/java-explore-with-me/develop/postman/ewm-like-service.json)
 
 ### _Схема Архитектуры проекта_
 
