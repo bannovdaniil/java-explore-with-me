@@ -34,7 +34,8 @@ class EventOutDtoTest {
                 LocalDateTime.now(),
                 false,
                 EventState.PENDING,
-                0L
+                0L,
+                5
         );
 
         var result = json.write(dto);
@@ -54,6 +55,7 @@ class EventOutDtoTest {
         assertThat(result).hasJsonPath("$.requestModeration");
         assertThat(result).hasJsonPath("$.state");
         assertThat(result).hasJsonPath("$.views");
+        assertThat(result).hasJsonPath("$.rate");
 
         assertThat(result).extractingJsonPathStringValue("$.annotation").isEqualTo(dto.getAnnotation());
         assertThat(result).extractingJsonPathStringValue("$.description").isEqualTo(dto.getDescription());
