@@ -180,7 +180,7 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         int count = eventsRepository.countByInitiatorId(userId);
         long rate = eventsRepository.sumRateByInitiatorId(userId);
 
-        return 1.0F * rate / count;
+        return count == 0 ? 0.0F : (1.0F * rate / count);
     }
 
     private void checkUser(Long userId, Event event) throws UserNotFoundException, AccessDeniedException {
