@@ -1,20 +1,20 @@
 {
-	"info": {
-      "_postman_id": "9fc27b0f-1a89-4a43-ba32-eae21299ce16",
-      "name": "Test Explore With Me - Main service",
-      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-      "_exporter_id": "23073145"
-    },
-	"item": [
-		{
-			"name": "admin",
-			"item": [
-				{
-					"name": "categories",
-					"item": [
-						{
-							"name": "Изменение категории",
-							"event": [
+  "info": {
+    "_postman_id": "9fc27b0f-1a89-4a43-ba32-eae21299ce16",
+    "name": "Test Explore With Me - Main service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23073145"
+  },
+  "item": [
+    {
+      "name": "admin",
+      "item": [
+        {
+          "name": "categories",
+          "item": [
+            {
+              "name": "Изменение категории",
+              "event": [
 								{
 									"listen": "prerequest",
 									"script": {
@@ -712,29 +712,29 @@
 								{
 									"listen": "test",
 									"script": {
-										"exec": [
-											"pm.test(\"Ответ должен содержать код статуса 200\", function () {\r",
-											"    pm.response.to.be.ok;    \r",
-											"});\r",
-											"\r",
-											"source = pm.collectionVariables.get('response');\r",
-											"catId = pm.collectionVariables.get('catid');\r",
-                                          "\r",
-                                          "pm.test(\"Категория должна быть найдена до удаления\", function () {\r",
-                                          "    pm.expect(source.id).equal(catId, 'Идентификтор категории должен совпадать с удаляемым');\r",
-                                          "});\r",
-                                          "\r",
-                                          "pm.sendRequest({\r",
-                                          "            url: pm.collectionVariables.get(\"baseUrl\") + \"/categories/\" + catId,\r",
-                                          "            method: 'GET',\r",
-                                          "        }, (error, response) => {\r",
-                                          "            pm.test(\"Категория не должна быть найдена после удаления\", function () {\r",
-                                          "                pm.expect(response.code).to.eql(404);\r",
-                                          "            });\r",
-                                          "        });"
-                                        ],
-										"type": "text/javascript"
-									}
+                                      "exec": [
+                                        "pm.test(\"Ответ должен содержать код статуса 200\", function () {\r",
+                                        "    pm.response.to.be.ok;    \r",
+                                        "});\r",
+                                        "\r",
+                                        "source = pm.collectionVariables.get('response');\r",
+                                        "catId = pm.collectionVariables.get('catid');\r",
+                                        "\r",
+                                        "pm.test(\"Категория должна быть найдена до удаления\", function () {\r",
+                                        "    pm.expect(source.id).equal(catId, 'Идентификтор категории должен совпадать с удаляемым');\r",
+                                        "});\r",
+                                        "\r",
+                                        "pm.sendRequest({\r",
+                                        "            url: pm.collectionVariables.get(\"baseUrl\") + \"/categories/\" + catId,\r",
+                                        "            method: 'GET',\r",
+                                        "        }, (error, response) => {\r",
+                                        "            pm.test(\"Категория не должна быть найдена после удаления\", function () {\r",
+                                        "                pm.expect(response.code).to.eql(404);\r",
+                                        "            });\r",
+                                        "        });"
+                                      ],
+                                      "type": "text/javascript"
+                                    }
 								}
 							],
 							"request": {
