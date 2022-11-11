@@ -4,12 +4,14 @@ DROP TABLE IF EXISTS events cascade;
 DROP TABLE IF EXISTS users cascade;
 DROP TABLE IF EXISTS categories cascade;
 DROP TABLE IF EXISTS locations cascade;
+DROP TABLE IF EXISTS likes cascade;
 
 CREATE TABLE IF NOT EXISTS users
 (
     id    BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name  VARCHAR(250) NOT NULL,
     email VARCHAR(100) UNIQUE,
+    rate  NUMERIC(10, 2) DEFAULT 0,
     CONSTRAINT UQ_USER_EMAIL UNIQUE (email)
 );
 
@@ -51,7 +53,8 @@ CREATE TABLE IF NOT EXISTS events
     state              VARCHAR(15),
     title              VARCHAR(120)
         CONSTRAINT title_length CHECK (char_length(title) >= 3),
-    views              BIGINT  DEFAULT 0
+    views              BIGINT  DEFAULT 0,
+    rate               INTEGER DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS compilations
@@ -66,6 +69,14 @@ CREATE TABLE IF NOT EXISTS compilations_events
     id             BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     event_id       BIGINT REFERENCES events (id),
     compilation_id BIGINT REFERENCES compilations (id)
+);
+
+CREATE TABLE IF NOT EXISTS likes
+(
+    id       BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id  BIGINT REFERENCES users (id),
+    event_id BIGINT REFERENCES events (id),
+    type     VARCHAR(7)
 );
 
 CREATE TABLE IF NOT EXISTS requests

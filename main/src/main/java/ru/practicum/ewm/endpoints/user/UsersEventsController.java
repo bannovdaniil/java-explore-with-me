@@ -8,14 +8,13 @@ import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.dto.events.EventInDto;
 import ru.practicum.ewm.dto.events.EventOutDto;
 import ru.practicum.ewm.endpoints.user.service.UsersEventsService;
-import ru.practicum.ewm.exception.CategoryNotFoundException;
-import ru.practicum.ewm.exception.EventClosedException;
-import ru.practicum.ewm.exception.EventNotFoundException;
-import ru.practicum.ewm.exception.UserNotFoundException;
+import ru.practicum.ewm.exception.*;
+import ru.practicum.ewm.model.LikeType;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 @RestController
@@ -70,4 +69,31 @@ public class UsersEventsController {
         log.info("User cancelEvent: {},{}", userId, eventId);
         return usersEventsService.cancelEvent(userId, eventId);
     }
+
+    @PutMapping("/{eventId}/like")
+    public void addLike(
+            @Positive @PathVariable Long userId,
+            @Positive @PathVariable Long eventId,
+            @RequestParam(name = "type") String type
+    ) throws UserNotFoundException,
+            EventNotFoundException,
+            DoubleLikeException,
+            LikeNotFoundException,
+            AccessDeniedException {
+        LikeType likeType = LikeType.from(type)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown type: " + type));
+        usersEventsService.addLike(userId, eventId, likeType);
+    }
+
+    @DeleteMapping("/{eventId}/like")
+    public void removeLike(
+            @Positive @PathVariable Long userId,
+            @Positive @PathVariable Long eventId,
+            @RequestParam(name = "type") String type
+    ) throws UserNotFoundException, EventNotFoundException, LikeNotFoundException, AccessDeniedException {
+        LikeType likeType = LikeType.from(type)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown type: " + type));
+        usersEventsService.removeLike(userId, eventId, likeType);
+    }
+
 }

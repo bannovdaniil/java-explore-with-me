@@ -32,7 +32,7 @@ public interface EventsRepository extends JpaRepository<Event, Long> {
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     @Query("UPDATE Event e " +
-            " SET e.views = e.views +1 " +
+            " SET e.views = e.views + 1 " +
             " WHERE e.id = :eventId")
     void incrementViews(Long eventId);
 
@@ -55,4 +55,26 @@ public interface EventsRepository extends JpaRepository<Event, Long> {
                                LocalDateTime rangeEnd,
                                Boolean onlyAvailable,
                                Pageable pageable);
+
+
+    int countByInitiatorId(Long userId);
+
+    @Query("SELECT SUM(e.rate) FROM Event e " +
+            " WHERE e.initiator.id = :userId"
+    )
+    long sumRateByInitiatorId(Long userId);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Transactional
+    @Query("UPDATE Event e " +
+            " SET e.rate = e.rate + 1 " +
+            " WHERE e.id = :eventId")
+    void incrementRate(Long eventId);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Transactional
+    @Query("UPDATE Event e " +
+            " SET e.rate = e.rate - 1 " +
+            " WHERE e.id = :eventId")
+    void decrementRate(Long eventId);
 }

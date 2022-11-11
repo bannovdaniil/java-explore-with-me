@@ -1,6 +1,7 @@
 package ru.practicum.ewm.mapper;
 
 import ru.practicum.ewm.dto.users.UserDto;
+import ru.practicum.ewm.dto.users.UserPublicDto;
 import ru.practicum.ewm.model.User;
 
 import java.util.ArrayList;
@@ -8,11 +9,11 @@ import java.util.List;
 
 public class UserMapper {
     public static UserDto userToDto(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-        return userDto;
+        return new UserDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getRate());
     }
 
     public static User dtoToUser(UserDto userDto) {
@@ -28,5 +29,9 @@ public class UserMapper {
             userDtoList.add(userToDto(user));
         }
         return userDtoList;
+    }
+
+    public static UserPublicDto userToPublicDto(User user) {
+        return new UserPublicDto(user.getName());
     }
 }

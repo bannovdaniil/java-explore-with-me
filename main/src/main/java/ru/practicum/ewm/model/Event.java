@@ -39,6 +39,9 @@ public class Event {
     private Boolean requestModeration;
     private String title;
     private Long views;
+    @Column(columnDefinition = "INTEGER DEFAULT 0")
+    @Builder.Default
+    private Integer rate = 0;
 
     @ManyToMany
     @JoinTable(name = "COMPILATIONS_EVENTS",
@@ -60,4 +63,5 @@ public class Event {
     @ManyToOne
     @JoinColumn(name = "initiator_id")
     private User initiator;
+
 }

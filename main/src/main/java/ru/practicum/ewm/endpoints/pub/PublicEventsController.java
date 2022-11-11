@@ -5,9 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.Constants;
-import ru.practicum.ewm.dto.events.EventOutDto;
+import ru.practicum.ewm.dto.events.EventPublicOutDto;
 import ru.practicum.ewm.endpoints.pub.service.EventsService;
 import ru.practicum.ewm.exception.EventNotFoundException;
+import ru.practicum.ewm.model.SortType;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
@@ -24,7 +25,7 @@ public class PublicEventsController {
     private final EventsService eventsService;
 
     @GetMapping
-    public List<EventOutDto> findAllEvents(
+    public List<EventPublicOutDto> findAllEvents(
             @RequestParam(name = "text", defaultValue = "") String text,
             @RequestParam(name = "categories", required = false) Long[] categories,
             @RequestParam(name = "paid", required = false) Boolean paid,
@@ -36,10 +37,11 @@ public class PublicEventsController {
             @RequestParam(name = "from", defaultValue = "0") Integer from,
             @Positive
             @RequestParam(name = "size", defaultValue = Constants.PAGE_SIZE_STRING) Integer size,
-            HttpServletRequest request)
-            throws EventNotFoundException {
+            HttpServletRequest request) {
         log.info("Public findAllEvents: {},{},{},{},{},{},{},{},{},{}",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request);
+        SortType sortType = SortType.from(sort)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown type: " + sort));
         return eventsService.findAllEvents(
                 text,
                 categories,
@@ -47,7 +49,7 @@ public class PublicEventsController {
                 rangeStart,
                 rangeEnd,
                 onlyAvailable,
-                sort,
+                sortType,
                 from,
                 size,
                 request
@@ -55,7 +57,7 @@ public class PublicEventsController {
     }
 
     @GetMapping("{eventId}")
-    public EventOutDto findEventById(@Positive @PathVariable Long eventId, HttpServletRequest request) throws EventNotFoundException {
+    public EventPublicOutDto findEventById(@Positive @PathVariable Long eventId, HttpServletRequest request) throws EventNotFoundException {
         log.info("Public findEventById: {},{}", eventId, request);
         return eventsService.findEventById(eventId, request);
     }

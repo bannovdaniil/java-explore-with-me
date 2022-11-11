@@ -5,7 +5,7 @@ import lombok.*;
 import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.dto.categories.CategoryFullDto;
 import ru.practicum.ewm.dto.locations.LocationDto;
-import ru.practicum.ewm.dto.users.UserDto;
+import ru.practicum.ewm.dto.users.UserPublicDto;
 import ru.practicum.ewm.model.EventState;
 
 import java.time.LocalDateTime;
@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EventOutDto {
+public class EventPublicOutDto {
     private String annotation;
     private CategoryFullDto category;
-    private UserDto initiator;
+    private UserPublicDto initiator;
     private LocationDto location;
     private String title;
     private Integer confirmedRequests;

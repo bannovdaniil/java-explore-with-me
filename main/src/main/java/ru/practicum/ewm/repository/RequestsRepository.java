@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.model.Request;
+import ru.practicum.ewm.model.RequestState;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface RequestsRepository extends JpaRepository<Request, Long> {
             " WHERE e.id = :eventId AND e.initiator.id = :userId "
     )
     List<Request> findAllByInitiatorIdAndEventId(Long userId, Long eventId);
+
+    boolean existsByRequesterIdAndEventIdAndStatus(Long userId, Long eventId, RequestState requestState);
 }

@@ -9,20 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.dto.events.EventInDto;
 import ru.practicum.ewm.dto.events.EventOutDto;
-import ru.practicum.ewm.exception.CategoryNotFoundException;
-import ru.practicum.ewm.exception.EventClosedException;
-import ru.practicum.ewm.exception.EventNotFoundException;
-import ru.practicum.ewm.exception.UserNotFoundException;
+import ru.practicum.ewm.exception.*;
 import ru.practicum.ewm.mapper.EventMapper;
-import ru.practicum.ewm.model.Event;
-import ru.practicum.ewm.model.EventState;
-import ru.practicum.ewm.repository.CategoriesRepository;
-import ru.practicum.ewm.repository.EventsRepository;
-import ru.practicum.ewm.repository.UsersRepository;
+import ru.practicum.ewm.model.*;
+import ru.practicum.ewm.repository.*;
 import ru.practicum.ewm.utils.Utils;
 
+import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +26,8 @@ public class UsersEventsServiceImpl implements UsersEventsService {
     private final EventsRepository eventsRepository;
     private final CategoriesRepository categoriesRepository;
     private final UsersRepository usersRepository;
+    private final LikeRepository likeRepository;
+    private final RequestsRepository requestsRepository;
 
     @Override
     @Transactional
@@ -118,6 +116,90 @@ public class UsersEventsServiceImpl implements UsersEventsService {
         event.setState(EventState.CANCELED);
 
         return EventMapper.eventToOutDto(eventsRepository.saveAndFlush(event));
+    }
+
+    @Override
+    @Transactional
+    public void addLike(Long userId, Long eventId, LikeType likeType)
+            throws UserNotFoundException, EventNotFoundException, DoubleLikeException, LikeNotFoundException, AccessDeniedException {
+        Event event = getEvent(eventId);
+        checkUser(userId, event);
+        if (!requestsRepository.existsByRequesterIdAndEventIdAndStatus(userId, eventId, RequestState.CONFIRMED)) {
+            throw new AccessDeniedException("Запрещено оценивать событие в которых не участвуешь.");
+        }
+
+        Optional<Like> like = likeRepository.findByEventIdAndUserId(userId, eventId);
+        if (like.isPresent()) {
+            if (like.get().getType() != likeType) {
+                LikeType deleteType = LikeType.LIKE;
+                if (likeType == LikeType.LIKE) {
+                    deleteType = LikeType.DISLIKE;
+                }
+                removeLike(userId, eventId, deleteType);
+            } else {
+                throw new DoubleLikeException("Можно поставить только один раз.");
+            }
+        }
+        likeRepository.saveAndFlush(new Like(null, userId, eventId, likeType));
+        if (likeType == LikeType.LIKE) {
+            eventsRepository.incrementRate(eventId);
+        } else {
+            eventsRepository.decrementRate(eventId);
+        }
+
+        User initiator = event.getInitiator();
+        initiator.setRate(getRate(initiator.getId()));
+        usersRepository.save(initiator);
+    }
+
+    @Override
+    @Transactional
+    public void removeLike(Long userId, Long eventId, LikeType likeType)
+            throws UserNotFoundException, EventNotFoundException, LikeNotFoundException, AccessDeniedException {
+        Event event = getEvent(eventId);
+        checkUser(userId, event);
+
+        Like like = likeRepository.findByUserIdAndEventIdAndType(userId, eventId, likeType)
+                .orElseThrow(
+                        () -> new LikeNotFoundException(likeType + " not found.")
+                );
+        likeRepository.delete(like);
+
+        if (likeType == LikeType.LIKE) {
+            eventsRepository.decrementRate(eventId);
+        } else {
+            eventsRepository.incrementRate(eventId);
+        }
+
+        User initiator = event.getInitiator();
+        initiator.setRate(getRate(initiator.getId()));
+        usersRepository.save(initiator);
+    }
+
+    private Float getRate(Long userId) {
+        int count = eventsRepository.countByInitiatorId(userId);
+        long rate = eventsRepository.sumRateByInitiatorId(userId);
+
+        return count == 0 ? 0.0F : (1.0F * rate / count);
+    }
+
+    private void checkUser(Long userId, Event event) throws UserNotFoundException, AccessDeniedException {
+        if (!usersRepository.existsById(userId)) {
+            throw new UserNotFoundException("User ID not found.");
+        }
+        if (userId.equals(event.getInitiator().getId())) {
+            throw new AccessDeniedException("Запрещено оценивать собственное событие.");
+        }
+    }
+
+    private Event getEvent(Long eventId) throws EventNotFoundException, AccessDeniedException {
+        Event event = eventsRepository.findById(eventId).orElseThrow(
+                () -> new EventNotFoundException("Event ID not found.")
+        );
+        if (event.getState() != EventState.PUBLISHED) {
+            throw new AccessDeniedException("Можно оценивать только опубликованные события.");
+        }
+        return event;
     }
 
 }

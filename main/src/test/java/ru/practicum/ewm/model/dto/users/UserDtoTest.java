@@ -31,7 +31,8 @@ class UserDtoTest {
         var dto = new UserDto(
                 1L,
                 "User name",
-                "email@mail.com"
+                "email@mail.com",
+                5.0F
         );
 
         var result = json.write(dto);
@@ -39,6 +40,7 @@ class UserDtoTest {
         assertThat(result).hasJsonPath("$.id");
         assertThat(result).hasJsonPath("$.name");
         assertThat(result).hasJsonPath("$.email");
+        assertThat(result).hasJsonPath("$.rate");
 
         assertThat(result).extractingJsonPathNumberValue("$.id").isEqualTo(dto.getId().intValue());
         assertThat(result).extractingJsonPathStringValue("$.name").isEqualTo(dto.getName());

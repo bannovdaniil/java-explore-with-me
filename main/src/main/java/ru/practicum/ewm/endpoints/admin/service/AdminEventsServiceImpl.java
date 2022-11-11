@@ -36,10 +36,24 @@ public class AdminEventsServiceImpl implements AdminEventsService {
     public List<EventOutDto> findAllEvents(Long[] users, String[] states, Long[] categories, String rangeStart, String rangeEnd, Integer from, Integer size) throws UserNotFoundException, CategoryNotFoundException {
         checkUsersExitOrThrow(users);
         checkCategoriesExitOrThrow(categories);
-        List<EventState> stateList = checkStatesCorrectOrThrow(states);
-
-        LocalDateTime startDate = LocalDateTime.parse(rangeStart, Constants.DATE_TIME_SPACE);
-        LocalDateTime endDate = LocalDateTime.parse(rangeEnd, Constants.DATE_TIME_SPACE);
+        List<EventState> stateList;
+        if (states != null) {
+            stateList = checkStatesCorrectOrThrow(states);
+        } else {
+            stateList = List.of();
+        }
+        LocalDateTime startDate;
+        if (rangeStart != null) {
+            startDate = LocalDateTime.parse(rangeStart, Constants.DATE_TIME_SPACE);
+        } else {
+            startDate = LocalDateTime.now();
+        }
+        LocalDateTime endDate;
+        if (rangeStart != null) {
+            endDate = LocalDateTime.parse(rangeEnd, Constants.DATE_TIME_SPACE);
+        } else {
+            endDate = LocalDateTime.now();
+        }
 
         Sort sort = Sort.sort(Event.class).by(Event::getEventDate).descending();
         Pageable pageable = PageRequest.of(from / size, size, sort);

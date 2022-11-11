@@ -8,17 +8,19 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "USERS", schema = "PUBLIC")
+@Table(name = "LIKES", schema = "PUBLIC")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    @Column(name = "email", unique = true)
-    private String email;
-    private Float rate;
+    @Column(name = "USER_ID")
+    private Long userId;
+    @Column(name = "EVENT_ID")
+    private Long eventId;
+    @Enumerated(EnumType.STRING)
+    private LikeType type;
 }

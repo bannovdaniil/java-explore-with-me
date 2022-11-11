@@ -8,12 +8,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.MainAPI;
-import ru.practicum.ewm.dto.events.EventOutDto;
+import ru.practicum.ewm.dto.events.EventPublicOutDto;
 import ru.practicum.ewm.dto.stats.StatInDto;
 import ru.practicum.ewm.exception.EventNotFoundException;
 import ru.practicum.ewm.mapper.EventMapper;
 import ru.practicum.ewm.model.Event;
 import ru.practicum.ewm.model.EventState;
+import ru.practicum.ewm.model.SortType;
 import ru.practicum.ewm.repository.EventsRepository;
 import ru.practicum.ewm.utils.AdminStatsClient;
 
@@ -29,7 +30,7 @@ public class EventsServiceImpl implements EventsService {
     private final AdminStatsClient adminStatsClient;
 
     @Override
-    public EventOutDto findEventById(Long eventId, HttpServletRequest request) throws EventNotFoundException {
+    public EventPublicOutDto findEventById(Long eventId, HttpServletRequest request) throws EventNotFoundException {
         if (!eventsRepository.existsByIdAndState(eventId, EventState.PUBLISHED)) {
             throw new EventNotFoundException("Event not found.");
         }
@@ -53,37 +54,59 @@ public class EventsServiceImpl implements EventsService {
                     }
                 });
         sendHit.start();
-        return EventMapper.eventToOutDto(event);
+        return EventMapper.eventToPublicOutDto(event);
     }
 
     @Override
-    public List<EventOutDto> findAllEvents(String text,
-                                           Long[] categories,
-                                           Boolean paid,
-                                           String rangeStart,
-                                           String rangeEnd,
-                                           Boolean onlyAvailable,
-                                           String sortType,
-                                           Integer from,
-                                           Integer size, HttpServletRequest request) throws EventNotFoundException {
-        Sort sort = "EVENT_DATE".equals(sortType) ?
-                Sort.sort(Event.class).by(Event::getEventDate).ascending() :
-                Sort.sort(Event.class).by(Event::getViews).descending();
+    public List<EventPublicOutDto> findAllEvents(String text,
+                                                 Long[] categories,
+                                                 Boolean paid,
+                                                 String rangeStart,
+                                                 String rangeEnd,
+                                                 Boolean onlyAvailable,
+                                                 SortType sortType,
+                                                 Integer from,
+                                                 Integer size, HttpServletRequest request) {
+
+        Sort sort;
+        switch (sortType) {
+            case EVENT_DATE:
+                sort = Sort.sort(Event.class).by(Event::getEventDate).ascending();
+                break;
+            case VIEWS:
+                sort = Sort.sort(Event.class).by(Event::getViews).descending();
+                break;
+            case RATE:
+                sort = Sort.sort(Event.class).by(Event::getRate).descending();
+                break;
+            default:
+                throw new IllegalArgumentException("Указан не существующий тип сортировки.");
+        }
+
         Pageable pageable = PageRequest.of(from / size, size, sort);
 
-        onlyAvailable = true;
+        LocalDateTime startDate;
+        if (rangeStart != null) {
+            startDate = LocalDateTime.parse(rangeStart, Constants.DATE_TIME_SPACE);
+        } else {
+            startDate = LocalDateTime.now();
+        }
+        LocalDateTime endDate;
+        if (rangeStart != null) {
+            endDate = LocalDateTime.parse(rangeEnd, Constants.DATE_TIME_SPACE);
+        } else {
+            endDate = LocalDateTime.now();
+        }
 
+        onlyAvailable = true;
         List<Event> events = eventsRepository.findAllByParam(
                 text,
                 categories,
                 paid,
-                LocalDateTime.parse(rangeStart, Constants.DATE_TIME_SPACE),
-                LocalDateTime.parse(rangeEnd, Constants.DATE_TIME_SPACE),
+                startDate,
+                endDate,
                 onlyAvailable,
                 pageable);
-        if (events.size() == 0) {
-            throw new EventNotFoundException("Not found any events for your parameters.");
-        }
 
         Thread sendHit = new Thread(
                 () -> {
@@ -101,6 +124,6 @@ public class EventsServiceImpl implements EventsService {
                 });
         sendHit.start();
 
-        return EventMapper.eventToListOutDto(events);
+        return EventMapper.eventToPublicListOutDto(events);
     }
 }
