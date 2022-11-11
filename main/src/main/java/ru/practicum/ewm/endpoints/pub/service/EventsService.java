@@ -19,5 +19,5 @@ public interface EventsService {
                                           SortType sortType,
                                           Integer from,
                                           Integer size,
-                                          HttpServletRequest request) throws EventNotFoundException;
+                                          HttpServletRequest request);
 }

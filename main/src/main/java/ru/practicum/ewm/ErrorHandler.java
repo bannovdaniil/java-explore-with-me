@@ -1,9 +1,14 @@
 package ru.practicum.ewm;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,6 +27,7 @@ import ru.practicum.ewm.exception.*;
 
 import java.nio.file.AccessDeniedException;
 import java.security.InvalidParameterException;
+import java.time.LocalDateTime;
 
 @RestControllerAdvice(
         assignableTypes = {
@@ -55,13 +61,20 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler({
+            DataIntegrityViolationException.class,
             MethodArgumentNotValidException.class,
-            InvalidParameterException.class
+            InvalidParameterException.class,
+            MissingServletRequestParameterException.class
     })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleBadRequest(final Exception e) {
-        log.info("Error handleBadRequest: {}", e.getMessage());
-        return new ErrorResponse("Ошибка валидации данных: " + e.getMessage());
+    public ErrorMessage handleBadRequest(final Exception e) {
+        log.info("Error handleBadRequest: {}: {}", e.getClass().getSimpleName(), e.getMessage());
+        return new ErrorMessage(
+                e.getClass().getSimpleName(),
+                e.getMessage(),
+                "",
+                "BAD_REQUEST",
+                Constants.DATE_TIME_SPACE.format(LocalDateTime.now()));
     }
 
     @ExceptionHandler({
@@ -76,7 +89,6 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler({
-            DataIntegrityViolationException.class,
             EventClosedException.class,
             DoubleLikeException.class
     })
@@ -112,5 +124,17 @@ public class ErrorHandler {
         public String getError() {
             return error;
         }
+    }
+
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    @ToString
+    private static class ErrorMessage {
+        private String errors;
+        private String message;
+        private String reason;
+        private String status;
+        private String timestamp;
     }
 }

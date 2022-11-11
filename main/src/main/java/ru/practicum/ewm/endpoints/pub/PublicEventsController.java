@@ -37,8 +37,7 @@ public class PublicEventsController {
             @RequestParam(name = "from", defaultValue = "0") Integer from,
             @Positive
             @RequestParam(name = "size", defaultValue = Constants.PAGE_SIZE_STRING) Integer size,
-            HttpServletRequest request)
-            throws EventNotFoundException {
+            HttpServletRequest request) {
         log.info("Public findAllEvents: {},{},{},{},{},{},{},{},{},{}",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request);
         SortType sortType = SortType.from(sort)

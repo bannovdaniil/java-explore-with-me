@@ -28,11 +28,11 @@ public class AdminEventsController {
 
     @GetMapping
     public List<EventOutDto> findAllEvents(
-            @RequestParam(value = "users") Long[] users,
-            @RequestParam(value = "states") String[] states,
-            @RequestParam(value = "categories") Long[] categories,
-            @RequestParam(name = "rangeStart") String rangeStart,
-            @RequestParam(name = "rangeEnd") String rangeEnd,
+            @RequestParam(value = "users", defaultValue = "") Long[] users,
+            @RequestParam(value = "states", required = false) String[] states,
+            @RequestParam(value = "categories", required = false) Long[] categories,
+            @RequestParam(name = "rangeStart", required = false) String rangeStart,
+            @RequestParam(name = "rangeEnd", required = false) String rangeEnd,
             @PositiveOrZero
             @RequestParam(name = "from", defaultValue = "0") Integer from,
             @Positive

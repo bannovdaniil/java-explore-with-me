@@ -8,6 +8,7 @@ import lombok.Setter;
 import ru.practicum.ewm.Constants;
 import ru.practicum.ewm.dto.locations.LocationDto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -19,13 +20,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class EventInDto {
     private Long eventId;
+    @NotBlank
     @Size(min = 20, max = 2000)
     private String annotation;
     @Positive
     private Long category;
+    @NotBlank
     @Size(min = 20, max = 7000)
     private String description;
     private LocationDto location;
+    @NotBlank
     @Size(min = 3, max = 120)
     private String title;
     @NotNull

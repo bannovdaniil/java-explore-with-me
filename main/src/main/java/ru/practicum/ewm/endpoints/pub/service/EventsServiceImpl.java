@@ -66,7 +66,7 @@ public class EventsServiceImpl implements EventsService {
                                                  Boolean onlyAvailable,
                                                  SortType sortType,
                                                  Integer from,
-                                                 Integer size, HttpServletRequest request) throws EventNotFoundException {
+                                                 Integer size, HttpServletRequest request) {
 
         Sort sort;
         switch (sortType) {
@@ -85,18 +85,28 @@ public class EventsServiceImpl implements EventsService {
 
         Pageable pageable = PageRequest.of(from / size, size, sort);
 
+        LocalDateTime startDate;
+        if (rangeStart != null) {
+            startDate = LocalDateTime.parse(rangeStart, Constants.DATE_TIME_SPACE);
+        } else {
+            startDate = LocalDateTime.now();
+        }
+        LocalDateTime endDate;
+        if (rangeStart != null) {
+            endDate = LocalDateTime.parse(rangeEnd, Constants.DATE_TIME_SPACE);
+        } else {
+            endDate = LocalDateTime.now();
+        }
+
         onlyAvailable = true;
         List<Event> events = eventsRepository.findAllByParam(
                 text,
                 categories,
                 paid,
-                LocalDateTime.parse(rangeStart, Constants.DATE_TIME_SPACE),
-                LocalDateTime.parse(rangeEnd, Constants.DATE_TIME_SPACE),
+                startDate,
+                endDate,
                 onlyAvailable,
                 pageable);
-        if (events.size() == 0) {
-            throw new EventNotFoundException("Not found any events for your parameters.");
-        }
 
         Thread sendHit = new Thread(
                 () -> {
